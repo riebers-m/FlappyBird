@@ -1,7 +1,7 @@
 
 
 #include <memory>
-#include <cpptrace/from_current.hpp>
+#include <../cmake-build-debug/_deps/cpptrace-src/include/cpptrace/from_current.hpp>
 
 #include "common/ImGuiLogDebugLog.hpp"
 #include "common/Logger.hpp"
