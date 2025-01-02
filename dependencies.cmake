@@ -35,6 +35,14 @@ function(flappy_bird_setup_dependencies)
             GITHUB_REPOSITORY skypjack/entt
             VERSION 3.14.0
     )
+
+    # Add expected till we use c++23
+    CPMAddPackage(
+            NAME expected
+            GITHUB_REPOSITORY TartanLlama/expected
+            VERSION 1.1.0
+    )
+
     if (${flappy_bird_build_tests})
         CPMAddPackage(
                 NAME GOOGLE_TEST
