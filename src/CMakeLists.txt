@@ -53,6 +53,7 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         gamer/Renderer.cpp
         gamer/Renderer.hpp
         gamer/Context.cpp
+        components/Transform.hpp
 )
 
 target_link_libraries(FlappyBird

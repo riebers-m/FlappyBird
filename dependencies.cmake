@@ -50,6 +50,18 @@ function(flappy_bird_setup_dependencies)
             VERSION 0.3.0
     )
 
+    CPMAddPackage(
+            NAME lua
+            GITHUB_REPOSITORY walterschell/Lua
+            VERSION 5.4.5
+    )
+
+    CPMAddPackage(
+            NAME sol
+            GITHUB_REPOSITORY ThePhD/sol2
+            VERSION 3.3.0
+    )
+
     if (${flappy_bird_build_tests})
         CPMAddPackage(
                 NAME Catch2
