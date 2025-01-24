@@ -5,7 +5,6 @@
 #pragma once
 #include <chrono>
 #include "SDL_events.h"
-#include "gamer/Configuration.hpp"
 #include "gamer/Registry.hpp"
 
 namespace game {
@@ -16,7 +15,7 @@ namespace game {
     public:
         virtual ~BaseState() = default;
 
-        virtual void enter(Configuration const &) = 0;
+        virtual void enter() = 0;
 
         virtual void exit() = 0;
 

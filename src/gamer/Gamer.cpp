@@ -4,10 +4,8 @@
 
 #include "Gamer.hpp"
 
-#include <format>
 #include <SDL_image.h>
 #include <stdexcept>
-
 #include "Configuration.hpp"
 #include "SDL.h"
 #include "SDL_ttf.h"
@@ -63,26 +61,14 @@ namespace game {
                 "could not get display mode: {}", SDL_GetError()));
         }
 
-        auto const window_height = static_cast<uint16_t>(display_mode.h * 0.8);
-        auto const window_width = static_cast<uint16_t>(window_height * 3 / 4);
-        auto const scale = 1.0f;
-        auto const config = Configuration{window_width, window_height, scale};
+        auto window = Window{
+            "2d Game Engine",
+            WindowSize{static_cast<std::uint32_t>(display_mode.w * 0.8), static_cast<uint32_t>(display_mode.h * 3 / 4)},
+            WindowFlags::Borderless
+        };
+        auto renderer = Renderer{window, RendererFlags::Accelerate};
+        renderer.set_renderer_blend_mode();
 
-        SDL_Window *window =
-                SDL_CreateWindow("2D Game Engine", SDL_WINDOWPOS_CENTERED,
-                                 SDL_WINDOWPOS_CENTERED, config.window_width,
-                                 config.window_height, SDL_WINDOW_BORDERLESS);
-        if (window == nullptr) {
-            throw std::runtime_error("could not create window.");
-        }
-        SDL_Renderer *renderer =
-                SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-        if (renderer == nullptr) {
-            throw std::runtime_error("could not create renderer.");
-        }
-        if (SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND) != 0) {
-            throw std::runtime_error{std::format("could not set blend mode: {}", SDL_GetError())};
-        }
-        return Game{std::move(logger), window, renderer, config};
+        return Game{std::move(logger), std::move(window), std::move(renderer)};
     }
 } // namespace game

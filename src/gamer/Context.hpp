@@ -3,24 +3,29 @@
 //
 
 #pragma once
-#include "resource/FontManager.hpp"
-#include "resource/TextureManager.hpp"
-#include "resource/AudioManager.hpp"
-#include "state/StateManager.hpp"
+#include "Registry.hpp"
+#include "common/Logger.hpp"
 
 namespace game {
-
+    class Renderer;
+    class StateManager;
+    class TextureManager;
+    class FontManager;
+    class AudioManager;
+    class Window;
 
     struct Context {
-        Configuration config;
-        std::shared_ptr<StateManager> state_manager;
-        std::shared_ptr<TextureManager> texture_manager;
-        std::shared_ptr<FontManager> font_manager;
-        std::shared_ptr<AudioManager> audio_manager;
-        SDL_Renderer *renderer;
-        LoggerPtr logger;
-        Registry registry;
-    };
+        explicit Context(StateManager &state_manager,
+                         TextureManager &texture_manager, FontManager &font_manager, AudioManager &audio_manager,
+                         Registry &registry, Renderer &renderer, Window &window, LoggerPtr logger);
 
-    using ContextPtr = std::shared_ptr<Context>;
+        StateManager &state_manager;
+        TextureManager &texture_manager;
+        FontManager &font_manager;
+        AudioManager &audio_manager;
+        Registry &registry;
+        Renderer &renderer;
+        Window &window;
+        LoggerPtr logger;
+    };
 }

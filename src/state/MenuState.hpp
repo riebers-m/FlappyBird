@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include "BaseState.hpp"
 #include "common/Button.hpp"
 #include "common/Text.hpp"
 #include "gamer/Context.hpp"
@@ -11,17 +12,17 @@
 namespace game {
     class MenuState : public BaseState {
     private:
-        ContextPtr m_context;
+        Context m_context;
         std::vector<std::unique_ptr<Button> > m_buttons;
         std::unique_ptr<Text> m_text;
         std::function<void()> m_on_quit;
 
     public:
-        explicit MenuState(ContextPtr, std::function<void()> on_quit);
+        explicit MenuState(Context, std::function<void()> on_quit);
 
         MenuState() = delete;
 
-        void enter(Configuration const &) override;
+        void enter() override;
 
         void exit() override;
 

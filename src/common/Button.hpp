@@ -20,7 +20,7 @@ namespace game {
         };
 
     public:
-        explicit Button(ContextPtr, SDL_Rect const &bbox, const std::string &text,
+        explicit Button(Context, SDL_Rect const &bbox, const std::string &text,
                         std::function<void()> callback);
 
         void set_bbox(SDL_Rect const &new_bbox);
@@ -38,7 +38,7 @@ namespace game {
         [[nodiscard]] SDL_Rect size() const;
 
     private:
-        ContextPtr m_context;
+        Context m_context;
         SDL_Rect m_bbox{};
         std::string m_text;
         std::function<void()> m_callback;

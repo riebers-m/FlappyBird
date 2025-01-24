@@ -7,12 +7,12 @@
 #include <utility>
 
 namespace game {
-    Text::Text(SDL_Renderer *renderer, std::shared_ptr<FontManager> font_manager, const std::string &text,
+    Text::Text(SDL_Renderer *renderer, FontManager font_manager, const std::string &text,
                SDL_Rect const &rect,
                SDL_Color color, asset_id id) : m_renderer(renderer), m_font_manager(std::move(font_manager)),
                                                m_color(color),
                                                m_text(text), m_texture(nullptr), m_rect(rect), m_id(id) {
-        if (m_renderer == nullptr || m_font_manager == nullptr) {
+        if (m_renderer == nullptr) {
             throw std::runtime_error("Cannot create text renderer");
         }
         set_text(m_text);
@@ -46,7 +46,7 @@ namespace game {
 
     void Text::regenerateTexture() {
         if (std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *s)> > surface{
-            TTF_RenderText_Blended(m_font_manager->get_resource(m_id).get(), m_text.c_str(),
+            TTF_RenderText_Blended(m_font_manager.get_resource(m_id).get(), m_text.c_str(),
                                    m_color),
             [](SDL_Surface *s) { SDL_FreeSurface(s); }
         }; surface != nullptr) {

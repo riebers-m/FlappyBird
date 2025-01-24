@@ -5,6 +5,7 @@
 #include "Game.hpp"
 
 #include <thread>
+#include <utility>
 
 #include "Context.hpp"
 #include "common/Const.hpp"
@@ -32,17 +33,14 @@ namespace game {
 
     static ImGuiContext *imgui_context{nullptr};
 #endif
-
-    Game::Game(LoggerPtr logger, SDL_Window *window, SDL_Renderer *renderer,
-               Configuration const &config) : m_window(window, [](SDL_Window *w) { SDL_DestroyWindow(w); }),
-                                              m_renderer(renderer, [](SDL_Renderer *r) { SDL_DestroyRenderer(r); }),
-                                              m_logger{std::move(logger)},
-                                              m_texture_manager(std::make_shared<TextureManager>()),
-                                              m_font_manager(std::make_shared<FontManager>(m_logger)),
-                                              m_audio_manager(std::make_shared<AudioManager>()),
-                                              m_running{true}, m_registry(std::make_shared<entt::registry>()),
-                                              m_state_manager(std::make_shared<StateManager>(config)),
-                                              m_config(config) {
+    Game::Game(LoggerPtr logger, Window window, Renderer renderer) : m_logger(std::move(logger)),
+                                                                     m_window{std::move(window)},
+                                                                     m_renderer{std::move(renderer)},
+                                                                     m_context{
+                                                                         m_state_manager, m_texture_manager,
+                                                                         m_font_manager, m_audio_manager,
+                                                                         m_registry, m_renderer, m_window, m_logger
+                                                                     }, m_running{true} {
     }
 
     Game::~Game() {
@@ -90,7 +88,7 @@ namespace game {
                 last_render_time = current_time;
             }
             // Removes deleted states
-            m_state_manager->process_states();
+            m_state_manager.process_states();
         }
     }
 
@@ -106,27 +104,22 @@ namespace game {
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
 
-        ContextPtr context = std::make_shared<Context>(m_config, m_state_manager, m_texture_manager, m_font_manager,
-                                                       m_audio_manager,
-                                                       m_renderer.get(), m_logger, m_registry);
+        m_font_manager.load_resource(asset_id::pico8_font_10, FONT_PICO, 10);
+        m_font_manager.load_resource(asset_id::pico8_font_30, FONT_PICO, 30);
+        m_font_manager.load_resource(asset_id::pico8_font_50, FONT_PICO, 50);
 
-        m_font_manager->load_resource(asset_id::pico8_font_10, FONT_PICO, 10);
-        m_font_manager->load_resource(asset_id::pico8_font_30, FONT_PICO, 30);
-        m_font_manager->load_resource(asset_id::pico8_font_50, FONT_PICO, 50);
+        m_texture_manager.load_resource(asset_id::board_texture, m_renderer.get(), BOARD_TEXTURE);
+        m_texture_manager.load_resource(asset_id::coin_animation, m_renderer.get(), COIN_ANIMATION);
 
-        m_texture_manager->load_resource(asset_id::board_texture, m_renderer.get(), BOARD_TEXTURE);
-        m_texture_manager->load_resource(asset_id::coin_animation, m_renderer.get(), COIN_ANIMATION);
+        m_audio_manager.load(AudioType::music, asset_id::game_music, GAME_MUSIC);
+        m_audio_manager.load(AudioType::music, asset_id::menu_music, MENU_MUSIC);
+        m_audio_manager.load(AudioType::chunk, asset_id::click_sound, CLICK_SOUND);
+        m_audio_manager.load(AudioType::chunk, asset_id::lose_sound, LOSE_SOUND);
+        m_audio_manager.load(AudioType::chunk, asset_id::win_sound, WIN_SOUND);
+        m_audio_manager.load(AudioType::chunk, asset_id::ready_sound, READY_SOUND);
+        m_audio_manager.load(AudioType::chunk, asset_id::draw_sound, DRAW_SOUND);
 
-        m_audio_manager->load(AudioType::music, asset_id::game_music, GAME_MUSIC);
-        m_audio_manager->load(AudioType::music, asset_id::menu_music, MENU_MUSIC);
-        m_audio_manager->load(AudioType::chunk, asset_id::click_sound, CLICK_SOUND);
-        m_audio_manager->load(AudioType::chunk, asset_id::lose_sound, LOSE_SOUND);
-        m_audio_manager->load(AudioType::chunk, asset_id::win_sound, WIN_SOUND);
-        m_audio_manager->load(AudioType::chunk, asset_id::ready_sound, READY_SOUND);
-        m_audio_manager->load(AudioType::chunk, asset_id::draw_sound, DRAW_SOUND);
-
-        m_state_manager->add_state(StateId::menu, std::make_unique<MenuState>(context, [&] { stop(); }));
-
+        m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
     }
 
     void Game::handle_events() {
@@ -147,28 +140,30 @@ namespace game {
                     }
                 default: ;
             }
-            m_state_manager->handle_events(event);
+            m_state_manager.handle_events(event);
         }
     }
 
-    void Game::update(Registry const& state) {
-        m_state_manager->update(
+    void Game::update(Registry const &state) {
+        m_state_manager.update(
             state,
             std::chrono::duration_cast<std::chrono::milliseconds>(
                 timestep));
     }
 
-    Registry interpolate(Registry const &current_state,
-                              Registry const &previous_state, float dt) {
-        return current_state;
-    }
+    // Registry interpolate(Registry const &current_state,
+    //                      Registry const &previous_state, float dt) {
+    //     return current_state;
+    // }
 
     void Game::render(Registry const &state) {
-        SDL_SetRenderDrawColor(m_renderer.get(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b,
-                               BACKGROUND_COLOR.a);
-        SDL_RenderClear(m_renderer.get());
+        m_renderer.set_draw_color(BACKGROUND_COLOR);
+        m_renderer.clear();
+        // SDL_SetRenderDrawColor(m_renderer.get(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b,
+        //                        BACKGROUND_COLOR.a);
+        // SDL_RenderClear(m_renderer.get());
 
-        m_state_manager->render(state); {
+        m_state_manager.render(state); {
 #ifdef _DEBUG
             ImGuiRender imgui_renderer{
                 m_renderer.get(), log_framrate,

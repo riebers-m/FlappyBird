@@ -47,9 +47,12 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         common/Button.hpp
         common/Text.cpp
         common/Text.hpp
-        common/Drawer.cpp
-        common/Drawer.hpp
         gamer/Registry.hpp
+        gamer/Window.cpp
+        gamer/Window.hpp
+        gamer/Renderer.cpp
+        gamer/Renderer.hpp
+        gamer/Context.cpp
 )
 
 target_link_libraries(FlappyBird
@@ -58,12 +61,20 @@ target_link_libraries(FlappyBird
         spdlog::spdlog_header_only
         cpptrace::cpptrace
         EnTT::EnTT
+        JsonParser::JsonParser
+        tl::expected
 )
 
 target_include_directories(FlappyBird PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913>
         $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913/backends>
+)
+
+set_target_properties(FlappyBird PROPERTIES
+        CXX_STANDARD 20
+        VERSION ${FlappyBird_VERSION}
+        SOVERSION ${FlappyBird_VERSION_MAJOR}
 )
 
 if (WIN32)

@@ -6,16 +6,21 @@
 
 #include <SDL_events.h>
 #include <format>
+#include <SDL_mixer.h>
 #include <stdexcept>
 #include <utility>
 
 #include "Const.hpp"
+#include "Text.hpp"
+#include "gamer/Renderer.hpp"
+#include "resource/AssetIDs.hpp"
+#include "resource/AudioManager.hpp"
 
 namespace game {
-    Button::Button(ContextPtr context, SDL_Rect const &bbox, const std::string &text,
+    Button::Button(Context context, SDL_Rect const &bbox, const std::string &text,
                    std::function<void()> callback) : m_context(std::move(context)), m_bbox(bbox), m_text(text),
                                                      m_callback(std::move(callback)) {
-        set_text(m_text, m_context->renderer, {});
+        set_text(m_text, m_context.renderer.get(), {});
     }
 
 
@@ -53,7 +58,7 @@ namespace game {
 
     void Button::update() {
         if (m_clicked) {
-            auto const sound = m_context->audio_manager->get_chunk(asset_id::click_sound);
+            auto const sound = m_context.audio_manager.get_chunk(asset_id::click_sound);
             Mix_PlayChannel(-1, sound.get(), 0);
             m_clicked = false;
             if (m_callback) {
@@ -80,7 +85,7 @@ namespace game {
 
     void Button::set_text(const std::string &text, SDL_Renderer *renderer, SDL_Color color) {
         if (std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *s)> > surface{
-            TTF_RenderText_Blended(m_context->font_manager->get_resource(asset_id::pico8_font_50).get(), m_text.c_str(),
+            TTF_RenderText_Blended(m_context.font_manager.get_resource(asset_id::pico8_font_50).get(), m_text.c_str(),
                                    color),
             [](SDL_Surface *s) { SDL_FreeSurface(s); }
         }; surface != nullptr) {

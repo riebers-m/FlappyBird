@@ -5,9 +5,6 @@
 #include "StateManager.hpp"
 
 namespace game {
-    StateManager::StateManager(Configuration const &config) : m_states(), m_to_be_removed(), m_config(config) {
-    }
-
     void StateManager::activate_state(StateId const &state) {
         if (!m_states.empty()) {
             if (m_states.back().first == state) {
@@ -27,7 +24,7 @@ namespace game {
         } else {
             m_states.emplace_back(std::move(*ret));
         }
-        m_states.back().second->enter(m_config);
+        m_states.back().second->enter();
     }
 
 
@@ -52,7 +49,7 @@ namespace game {
         if (ret == m_states.end()) {
             m_states.emplace_back(id, std::move(state));
         }
-        m_states.back().second->enter(m_config);
+        m_states.back().second->enter();
     }
 
     void StateManager::remove_state(StateId id) {

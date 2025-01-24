@@ -41,16 +41,21 @@ function(flappy_bird_setup_dependencies)
             NAME expected
             GITHUB_REPOSITORY TartanLlama/expected
             VERSION 1.1.0
+            OPTIONS "EXPECTED_BUILD_TESTS OFF"
+    )
+
+    CPMAddPackage(
+            NAME Json
+            GITHUB_REPOSITORY riebers-m/Json
+            VERSION 0.3.0
     )
 
     if (${flappy_bird_build_tests})
         CPMAddPackage(
-                NAME GOOGLE_TEST
-                GITHUB_REPOSITORY google/googletest
-                VERSION 1.14.0
-                OPTIONS
-                "BUILD_GMOCK OFF"
-                "INSTALL_GTEST OFF"
+                NAME Catch2
+                GITHUB_REPOSITORY catchorg/Catch2
+                VERSION 3.7.1
+                OPTIONS "CATCH_INSTALL_HELPERS OFF" "CATCH_BUILD_TESTING OFF" "CATCH_INSTALL_DOCS OFF"
         )
     endif ()
 endfunction()

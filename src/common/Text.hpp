@@ -12,7 +12,7 @@ namespace game {
     class Text {
     public:
         // Constructor: Initializes with renderer, font, and text
-        explicit Text(SDL_Renderer *renderer, std::shared_ptr<FontManager>, const std::string &text,
+        explicit Text(SDL_Renderer *renderer, FontManager, const std::string &text,
                       SDL_Rect const &rect, SDL_Color color, asset_id id);
 
         void set_text(const std::string &text);
@@ -28,7 +28,7 @@ namespace game {
 
     private:
         SDL_Renderer *m_renderer;
-        std::shared_ptr<FontManager> m_font_manager;
+        FontManager m_font_manager;
         SDL_Color m_color;
         std::string m_text;
 

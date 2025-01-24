@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.19)
-project(FlappyBird)
+project(FlappyBird LANGUAGES CXX)
 
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(FlappyBird_VERSION_MAJOR 0)
+set(FlappyBird_VERSION_MINOR 1)
+set(FlappyBird_VERSION_PATCH 0)
+set(FlappyBird_VERSION ${FlappyBird_VERSION_MAJOR}.${FlappyBird_VERSION_MINOR}.${FlappyBird_VERSION_PATCH})
+
 
 include(${PROJECT_SOURCE_DIR}/project_options.cmake)
 include(${PROJECT_SOURCE_DIR}/dependencies.cmake)
 
 flappy_bird_setup_dependencies()
-
-set(CMAKE_MAJOR_VERSION 0)
-set(CMAKE_MINOR_VERSION 1)
 
 add_subdirectory(src)

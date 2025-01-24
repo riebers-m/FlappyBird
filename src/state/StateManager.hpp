@@ -15,12 +15,11 @@ namespace game {
     private:
         std::vector<std::pair<StateId, BaseStatePtr> > m_states;
         std::vector<StateId> m_to_be_removed;
-        Configuration m_config;
 
         void kill_states();
 
     public:
-        explicit StateManager(Configuration const &);
+        StateManager() = default;
 
         void activate_state(StateId const &state);
 

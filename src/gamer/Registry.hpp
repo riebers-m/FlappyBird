@@ -3,7 +3,7 @@
 //
 #pragma once
 #include <entt/entt.hpp>
-#include <memory>
+
 namespace game {
-    using Registry = std::shared_ptr<entt::registry>;
+    using Registry = entt::registry;
 }

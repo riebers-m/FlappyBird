@@ -11,11 +11,8 @@
 
 namespace game {
     class FontManager : public ResourceManager<FontManager, TTF_Font> {
-    private:
-        LoggerPtr m_logger;
-
     public:
-        explicit FontManager(LoggerPtr);
+        FontManager() = default;
 
         [[nodiscard]] std::shared_ptr<TTF_Font>
         load(std::filesystem::path const &, std::uint16_t font_size) const;
