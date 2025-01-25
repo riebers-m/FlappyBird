@@ -54,6 +54,12 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         gamer/Renderer.hpp
         gamer/Context.cpp
         components/Transform.hpp
+        entity/Entity.cpp
+        entity/Entity.hpp
+        Registry.cpp
+        Registry.hpp
+        helpers/ScriptHelpers.cpp
+        helpers/ScriptHelpers.hpp
 )
 
 target_link_libraries(FlappyBird
