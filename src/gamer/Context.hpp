@@ -3,8 +3,8 @@
 //
 
 #pragma once
-#include "Registry.hpp"
 #include "common/Logger.hpp"
+#include "ecs/Entity.hpp"
 
 namespace game {
     class Renderer;
@@ -14,16 +14,17 @@ namespace game {
     class AudioManager;
     class Window;
 
+
     struct Context {
         explicit Context(StateManager &state_manager,
                          TextureManager &texture_manager, FontManager &font_manager, AudioManager &audio_manager,
-                         Registry &registry, Renderer &renderer, Window &window, LoggerPtr logger);
+                         entt::registry &registry, Renderer &renderer, Window &window, LoggerPtr logger);
 
         StateManager &state_manager;
         TextureManager &texture_manager;
         FontManager &font_manager;
         AudioManager &audio_manager;
-        Registry &registry;
+        entt::registry &registry;
         Renderer &renderer;
         Window &window;
         LoggerPtr logger;

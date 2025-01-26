@@ -74,7 +74,7 @@ namespace game {
         m_states.back().second->handle_events(event);
     }
 
-    void StateManager::update(Registry const &state,
+    void StateManager::update(entt::registry const &state,
                               std::chrono::milliseconds const &dt) {
         if (m_states.empty()) {
             throw std::runtime_error("No states to update");
@@ -83,7 +83,7 @@ namespace game {
         m_states.back().second->update(state, dt);
     }
 
-    void StateManager::render(Registry const &state) const {
+    void StateManager::render(entt::registry const &state) const {
         if (m_states.empty()) {
             throw std::runtime_error("No states to render");
         }

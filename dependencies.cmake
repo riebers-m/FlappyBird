@@ -54,6 +54,7 @@ function(flappy_bird_setup_dependencies)
             NAME lua
             GITHUB_REPOSITORY walterschell/Lua
             VERSION 5.4.5
+            OPTIONS "LUA_ENABLE_TESTING OFF"
     )
 
     CPMAddPackage(

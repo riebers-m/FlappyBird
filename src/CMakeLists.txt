@@ -19,6 +19,23 @@ set(IMGUI_SRC
         helpers/ImGuiRender.hpp>
 )
 
+add_library(ecslib
+        ecs/Entity.cpp
+        ecs/Entity.hpp
+        ecs/components/Transform.hpp
+        ecs/components/RigidBody.hpp
+        ecs/systems/ScriptHelpers.cpp
+        ecs/systems/ScriptHelpers.hpp
+        ecs/systems/Script.cpp
+        ecs/systems/Script.hpp
+)
+target_link_libraries(ecslib PUBLIC EnTT::EnTT lua_static sol2::sol2 glm::glm)
+target_include_directories(ecslib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+set_target_properties(ecslib PROPERTIES
+        CXX_STANDARD 20
+)
+add_library(ecslib::ecslib ALIAS ecslib)
+
 add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         gamer/Gamer.cpp
         gamer/Gamer.hpp
@@ -47,29 +64,23 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         common/Button.hpp
         common/Text.cpp
         common/Text.hpp
-        gamer/Registry.hpp
         gamer/Window.cpp
         gamer/Window.hpp
         gamer/Renderer.cpp
         gamer/Renderer.hpp
         gamer/Context.cpp
-        components/Transform.hpp
-        entity/Entity.cpp
-        entity/Entity.hpp
-        Registry.cpp
-        Registry.hpp
-        helpers/ScriptHelpers.cpp
-        helpers/ScriptHelpers.hpp
+        gamer/Game.cpp
+        gamer/Game.hpp
+
 )
 
 target_link_libraries(FlappyBird
         SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
-        glm::glm
         spdlog::spdlog_header_only
         cpptrace::cpptrace
-        EnTT::EnTT
         JsonParser::JsonParser
         tl::expected
+        ecslib::ecslib
 )
 
 target_include_directories(FlappyBird PRIVATE

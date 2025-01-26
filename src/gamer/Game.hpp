@@ -22,22 +22,20 @@ namespace game {
         Window m_window;
         Renderer m_renderer;
         StateManager m_state_manager{};
-        Registry m_registry{};
+        entt::registry m_registry{};
         Context m_context;
         bool m_running{false};
-        Configuration m_config{};
-
 
         void setup();
 
         void handle_events();
 
-        void update(Registry const &);
+        void update(entt::registry const &);
 
         // Registry interpolate(Registry const &current_state,
         //                      Registry const &previous_state, float dt);
 
-        void render(Registry const &);
+        void render(entt::registry const &);
 
         explicit Game(LoggerPtr, Window, Renderer);
 

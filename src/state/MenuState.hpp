@@ -28,8 +28,8 @@ namespace game {
 
         void handle_events(SDL_Event const &) override;
 
-        void update(Registry const &, const std::chrono::milliseconds &dt) override;
+        void update(entt::registry const &, const std::chrono::milliseconds &dt) override;
 
-        void render(Registry const &) override;
+        void render(entt::registry const &) override;
     };
 } // namespace game

@@ -79,7 +79,7 @@ namespace game {
         }
     }
 
-    void MenuState::update(Registry const &, const std::chrono::milliseconds &dt) {
+    void MenuState::update(entt::registry const &, const std::chrono::milliseconds &dt) {
         for (auto &button: m_buttons) {
             if (button) {
                 button->update();
@@ -87,7 +87,7 @@ namespace game {
         }
     }
 
-    void MenuState::render(Registry const &) {
+    void MenuState::render(entt::registry const &) {
         m_text->render();
         for (auto &button: m_buttons) {
             button->render(m_context.renderer.get());

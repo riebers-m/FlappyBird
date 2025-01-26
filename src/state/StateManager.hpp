@@ -4,7 +4,6 @@
 
 #pragma once
 #include "States.hpp"
-#include "gamer/Configuration.hpp"
 #include "state/BaseState.hpp"
 
 namespace game {
@@ -32,9 +31,9 @@ namespace game {
 
         void handle_events(SDL_Event const &event) const;
 
-        void update(Registry const &, std::chrono::milliseconds const &dt);
+        void update(entt::registry const &, std::chrono::milliseconds const &dt);
 
-        void render(Registry const &) const;
+        void render(entt::registry const &) const;
 
         void process_states();
     };

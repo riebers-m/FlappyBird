@@ -13,3 +13,9 @@ include(${PROJECT_SOURCE_DIR}/dependencies.cmake)
 flappy_bird_setup_dependencies()
 
 add_subdirectory(src)
+
+if (${flappy_bird_build_tests})
+    message(STATUS "Building engine tests")
+    include(CTest)
+    add_subdirectory(tests)
+endif ()

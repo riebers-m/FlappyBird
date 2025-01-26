@@ -5,7 +5,7 @@
 #pragma once
 #include <chrono>
 #include "SDL_events.h"
-#include "gamer/Registry.hpp"
+#include "ecs/Entity.hpp"
 
 namespace game {
     class BaseState {
@@ -21,10 +21,10 @@ namespace game {
 
         virtual void handle_events(SDL_Event const &) = 0;
 
-        virtual void update(Registry const &,
+        virtual void update(entt::registry const &,
                             std::chrono::milliseconds const &dt) = 0;
 
-        virtual void render(Registry const &) = 0;
+        virtual void render(entt::registry const &) = 0;
 
         void set_transparent(bool transparent) { m_transparent = transparent; }
 

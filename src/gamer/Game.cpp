@@ -61,7 +61,7 @@ namespace game {
         auto time_start = clock::now();
         auto last_render_time = time_start;
 
-        Registry previous_board{};
+        entt::registry previous_board{};
         while (m_running) {
             auto current_time = clock::now();
             auto frame_time = current_time - time_start;
@@ -144,7 +144,7 @@ namespace game {
         }
     }
 
-    void Game::update(Registry const &state) {
+    void Game::update(entt::registry const &state) {
         m_state_manager.update(
             state,
             std::chrono::duration_cast<std::chrono::milliseconds>(
@@ -156,7 +156,7 @@ namespace game {
     //     return current_state;
     // }
 
-    void Game::render(Registry const &state) {
+    void Game::render(entt::registry const &state) {
         m_renderer.set_draw_color(BACKGROUND_COLOR);
         m_renderer.clear();
         // SDL_SetRenderDrawColor(m_renderer.get(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b,
