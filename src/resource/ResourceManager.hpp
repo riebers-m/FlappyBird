@@ -6,10 +6,10 @@
 #include <filesystem>
 #include <memory>
 #include <unordered_map>
-#include <format>
-#include "resource/AssetIDs.hpp"
 
 namespace game {
+    using asset_id = std::string;
+
     template<typename Derived, typename T>
     class ResourceManager {
     private:
@@ -24,7 +24,7 @@ namespace game {
 
         template<typename... Args>
         void load_resource(asset_id id, Args &&... args) {
-            Derived &manager = static_cast<Derived &>(*this);
+            auto &manager = static_cast<Derived &>(*this);
             std::shared_ptr<T> resource = manager.load(std::forward<Args>(args)...);
             m_resources.emplace(id, resource);
         }

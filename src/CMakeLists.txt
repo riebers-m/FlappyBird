@@ -28,6 +28,7 @@ add_library(ecslib
         ecs/systems/ScriptHelpers.hpp
         ecs/systems/Script.cpp
         ecs/systems/Script.hpp
+        ecs/components/Sprite.hpp
 )
 target_link_libraries(ecslib PUBLIC EnTT::EnTT lua_static sol2::sol2 glm::glm)
 target_include_directories(ecslib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -71,6 +72,8 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         gamer/Context.cpp
         gamer/Game.cpp
         gamer/Game.hpp
+        gamer/Texture.cpp
+        gamer/Texture.hpp
 
 )
 
@@ -112,7 +115,7 @@ if (WIN32)
     add_custom_command(TARGET FlappyBird POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SDL2_MIXER_DLL_DIR}/SDL2_mixer.dll" $<TARGET_FILE_DIR:FlappyBird>)
-    # Copy Fonts
+    # Copy Assets
     add_custom_command(TARGET FlappyBird POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
             "${CMAKE_SOURCE_DIR}/assets" $<TARGET_FILE_DIR:FlappyBird>)

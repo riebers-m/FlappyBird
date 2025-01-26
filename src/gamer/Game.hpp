@@ -5,6 +5,7 @@
 #pragma once
 #include "Context.hpp"
 #include "Renderer.hpp"
+#include "Texture.hpp"
 #include "Window.hpp"
 #include "common/Logger.hpp"
 #include "resource/AudioManager.hpp"
@@ -25,6 +26,7 @@ namespace game {
         entt::registry m_registry{};
         Context m_context;
         bool m_running{false};
+        Texture m_texture;
 
         void setup();
 

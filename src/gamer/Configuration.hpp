@@ -7,8 +7,10 @@
 
 namespace game {
     struct Configuration {
-        std::uint16_t window_width{};
-        std::uint16_t window_height{};
-        float scale{};
+        std::filesystem::path asset_path{"assets"};
     };
+
+    // struct TextureAsset {
+    //     std::filesystem::path
+    // };
 } // namespace game

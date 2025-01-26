@@ -3,13 +3,13 @@
 //
 
 #pragma once
-#include <SDL_render.h>
+#include "gamer/Renderer.hpp"
 #include "ResourceManager.hpp"
 
 namespace game {
     class TextureManager : public ResourceManager<TextureManager, SDL_Texture> {
     public:
         std::shared_ptr<SDL_Texture>
-        load(SDL_Renderer *, std::filesystem::path const &path) const;
+        load(Renderer &renderer, std::filesystem::path const &path) const;
     };
 } // namespace game

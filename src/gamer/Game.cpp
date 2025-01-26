@@ -9,12 +9,14 @@
 
 #include "Context.hpp"
 #include "common/Const.hpp"
+
 #ifdef _DEBUG
 #include "helpers/ImGuiRender.hpp"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_sdlrenderer2.h"
 #include "imgui_internal.h"
 #endif
+#include "Texture.hpp"
 #include "state/BaseState.hpp"
 #include "state/MenuState.hpp"
 
@@ -40,7 +42,8 @@ namespace game {
                                                                          m_state_manager, m_texture_manager,
                                                                          m_font_manager, m_audio_manager,
                                                                          m_registry, m_renderer, m_window, m_logger
-                                                                     }, m_running{true} {
+                                                                     }, m_running{true},
+                                                                     m_texture(m_renderer, BOARD_TEXTURE) {
     }
 
     Game::~Game() {
@@ -104,20 +107,25 @@ namespace game {
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
 
-        m_font_manager.load_resource(asset_id::pico8_font_10, FONT_PICO, 10);
-        m_font_manager.load_resource(asset_id::pico8_font_30, FONT_PICO, 30);
-        m_font_manager.load_resource(asset_id::pico8_font_50, FONT_PICO, 50);
-
-        m_texture_manager.load_resource(asset_id::board_texture, m_renderer.get(), BOARD_TEXTURE);
-        m_texture_manager.load_resource(asset_id::coin_animation, m_renderer.get(), COIN_ANIMATION);
-
-        m_audio_manager.load(AudioType::music, asset_id::game_music, GAME_MUSIC);
-        m_audio_manager.load(AudioType::music, asset_id::menu_music, MENU_MUSIC);
-        m_audio_manager.load(AudioType::chunk, asset_id::click_sound, CLICK_SOUND);
-        m_audio_manager.load(AudioType::chunk, asset_id::lose_sound, LOSE_SOUND);
-        m_audio_manager.load(AudioType::chunk, asset_id::win_sound, WIN_SOUND);
-        m_audio_manager.load(AudioType::chunk, asset_id::ready_sound, READY_SOUND);
-        m_audio_manager.load(AudioType::chunk, asset_id::draw_sound, DRAW_SOUND);
+        // m_texture.load(m_renderer, BOARD_TEXTURE);
+        // Texture texture{m_renderer, BOARD_TEXTURE};
+        if (!m_texture.has_texture()) {
+            m_logger->warn("no texture loaded!");
+        }
+        // m_font_manager.load_resource(asset_id::pico8_font_10, FONT_PICO, 10);
+        // m_font_manager.load_resource(asset_id::pico8_font_30, FONT_PICO, 30);
+        // m_font_manager.load_resource(asset_id::pico8_font_50, FONT_PICO, 50);
+        //
+        // m_texture_manager.load_resource(asset_id::board_texture, m_renderer.get(), BOARD_TEXTURE);
+        // m_texture_manager.load_resource(asset_id::coin_animation, m_renderer.get(), COIN_ANIMATION);
+        //
+        // m_audio_manager.load(AudioType::music, asset_id::game_music, GAME_MUSIC);
+        // m_audio_manager.load(AudioType::music, asset_id::menu_music, MENU_MUSIC);
+        // m_audio_manager.load(AudioType::chunk, asset_id::click_sound, CLICK_SOUND);
+        // m_audio_manager.load(AudioType::chunk, asset_id::lose_sound, LOSE_SOUND);
+        // m_audio_manager.load(AudioType::chunk, asset_id::win_sound, WIN_SOUND);
+        // m_audio_manager.load(AudioType::chunk, asset_id::ready_sound, READY_SOUND);
+        // m_audio_manager.load(AudioType::chunk, asset_id::draw_sound, DRAW_SOUND);
 
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
     }
@@ -162,7 +170,10 @@ namespace game {
         // SDL_SetRenderDrawColor(m_renderer.get(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b,
         //                        BACKGROUND_COLOR.a);
         // SDL_RenderClear(m_renderer.get());
-
+        if (m_texture.get().has_value()) {
+            SDL_Rect dest{200, 200, 32, 32};
+            SDL_RenderCopy(m_renderer.get(), m_texture.get().value(), NULL, &dest);
+        }
         m_state_manager.render(state); {
 #ifdef _DEBUG
             ImGuiRender imgui_renderer{

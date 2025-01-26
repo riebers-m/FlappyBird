@@ -8,5 +8,8 @@
 namespace component {
     struct RigidBody {
         glm::vec<2, float> velocity{};
+
+        explicit RigidBody(glm::vec2 const &velocity = {}) : velocity{velocity} {
+        }
     };
 }

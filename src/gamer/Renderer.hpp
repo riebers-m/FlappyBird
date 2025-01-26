@@ -16,7 +16,7 @@ namespace game {
         Software = SDL_RENDERER_SOFTWARE,
         Accelerate = SDL_RENDERER_ACCELERATED,
         VSync = SDL_RENDERER_PRESENTVSYNC,
-        Texture = SDL_RENDERER_TARGETTEXTURE,
+        TargetTexture = SDL_RENDERER_TARGETTEXTURE,
     };
 
     using RendererDeleter = std::function<void(SDL_Renderer *)>;
