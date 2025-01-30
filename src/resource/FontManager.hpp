@@ -7,7 +7,6 @@
 
 
 #include "ResourceManager.hpp"
-#include "common/Logger.hpp"
 
 namespace game {
     class FontManager : public ResourceManager<FontManager, TTF_Font> {

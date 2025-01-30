@@ -24,7 +24,11 @@ namespace game {
 
     void Texture::load(const Renderer &renderer, std::filesystem::path const &path) {
         if (SDL_Texture *texture = IMG_LoadTexture(renderer.get(), path.string().c_str()); texture) {
-            m_texture = {texture, [](SDL_Texture *texture) { SDL_DestroyTexture(texture); }};
+            m_texture = {texture, SDL_DestroyTexture};
+        } else {
+            throw std::runtime_error(
+                std::format("Could not load texture from path: {} ERROR: {}",
+                            path.string(), SDL_GetError()));
         }
     }
 } // game

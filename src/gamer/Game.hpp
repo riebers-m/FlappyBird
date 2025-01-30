@@ -4,7 +4,10 @@
 
 #pragma once
 #include "Context.hpp"
+#include "Font.hpp"
+#include "Music.hpp"
 #include "Renderer.hpp"
+#include "Sound.hpp"
 #include "Texture.hpp"
 #include "Window.hpp"
 #include "common/Logger.hpp"
@@ -27,6 +30,9 @@ namespace game {
         Context m_context;
         bool m_running{false};
         Texture m_texture;
+        Font m_font;
+        Sound m_sound;
+        Music m_music;
 
         void setup();
 

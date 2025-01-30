@@ -43,7 +43,9 @@ namespace game {
                                                                          m_font_manager, m_audio_manager,
                                                                          m_registry, m_renderer, m_window, m_logger
                                                                      }, m_running{true},
-                                                                     m_texture(m_renderer, BOARD_TEXTURE) {
+                                                                     m_texture(m_renderer, BOARD_TEXTURE),
+                                                                     m_font(FONT_PICO, 30), m_sound(READY_SOUND),
+                                                                     m_music(MENU_MUSIC) {
     }
 
     Game::~Game() {
@@ -112,6 +114,23 @@ namespace game {
         if (!m_texture.has_texture()) {
             m_logger->warn("no texture loaded!");
         }
+
+        if (!m_font.has_font()) {
+            m_logger->warn("no font loaded!");
+        }
+
+        if (m_music.has_music()) {
+            if (Mix_PlayMusic(m_music.get().value(), -1) != 0) {
+                throw std::runtime_error(std::format("Failed to play menu music: {}", Mix_GetError()));
+            }
+        }
+
+        if (m_sound.has_sound()) {
+            if (Mix_PlayChannel(-1, m_sound.get().value(), 1) != 0) {
+                throw std::runtime_error(std::format("Failed to play menu music: {}", Mix_GetError()));
+            }
+        }
+
         // m_font_manager.load_resource(asset_id::pico8_font_10, FONT_PICO, 10);
         // m_font_manager.load_resource(asset_id::pico8_font_30, FONT_PICO, 30);
         // m_font_manager.load_resource(asset_id::pico8_font_50, FONT_PICO, 50);
@@ -170,10 +189,27 @@ namespace game {
         // SDL_SetRenderDrawColor(m_renderer.get(), BACKGROUND_COLOR.r, BACKGROUND_COLOR.g, BACKGROUND_COLOR.b,
         //                        BACKGROUND_COLOR.a);
         // SDL_RenderClear(m_renderer.get());
-        if (m_texture.get().has_value()) {
+        if (m_texture.has_texture()) {
             SDL_Rect dest{200, 200, 32, 32};
             SDL_RenderCopy(m_renderer.get(), m_texture.get().value(), NULL, &dest);
         }
+        if (m_font.has_font()) {
+            if (std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *s)> > surface{
+                TTF_RenderText_Blended(m_font.get().value(), "Hello There",
+                                       PRIMARY_COLOR),
+                [](SDL_Surface *s) { SDL_FreeSurface(s); }
+            }; surface != nullptr) {
+                if (std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> > texture{
+                    SDL_CreateTextureFromSurface(m_renderer.get(), surface.get()),
+                    [](SDL_Texture *tex) { SDL_DestroyTexture(tex); }
+                }; texture != nullptr) {
+                    SDL_Rect dest{400, 400, surface->w, surface->h};
+                    SDL_RenderCopy(m_renderer.get(), texture.get(), NULL, &dest);
+                }
+            }
+        }
+
+
         m_state_manager.render(state); {
 #ifdef _DEBUG
             ImGuiRender imgui_renderer{

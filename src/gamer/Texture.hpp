@@ -7,8 +7,6 @@
 #include <functional>
 #include <memory>
 
-#include "resource/TextureManager.hpp"
-
 struct SDL_Texture;
 
 namespace game {
@@ -16,8 +14,8 @@ namespace game {
 
     class Texture {
     private:
-        using TextureHandle = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> >;
-        std::optional<TextureHandle> m_texture;
+        using TextureOwner = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> >;
+        std::optional<TextureOwner> m_texture;
 
     public:
         Texture() = default;

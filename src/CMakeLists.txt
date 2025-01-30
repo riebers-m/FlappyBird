@@ -74,6 +74,14 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         gamer/Game.hpp
         gamer/Texture.cpp
         gamer/Texture.hpp
+        gamer/Font.cpp
+        gamer/Font.hpp
+        gamer/Sound.cpp
+        gamer/Sound.hpp
+        gamer/Music.cpp
+        gamer/Music.hpp
+        resource/AssetStore.cpp
+        resource/AssetStore.hpp
 
 )
 
