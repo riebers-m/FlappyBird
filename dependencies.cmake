@@ -47,7 +47,7 @@ function(flappy_bird_setup_dependencies)
     CPMAddPackage(
             NAME Json
             GITHUB_REPOSITORY riebers-m/Json
-            VERSION 0.3.0
+            VERSION 0.5.0
     )
 
     CPMAddPackage(

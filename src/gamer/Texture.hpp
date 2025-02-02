@@ -20,6 +20,14 @@ namespace game {
     public:
         Texture() = default;
 
+        Texture &operator=(Texture &&) noexcept;
+
+        Texture(Texture &&) noexcept;
+
+        Texture &operator=(Texture const &) = delete;
+
+        Texture(Texture const &) = delete;
+
         explicit Texture(Renderer &renderer, std::filesystem::path const &);
 
         [[nodiscard]] std::optional<SDL_Texture *> get() const;

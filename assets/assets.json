@@ -1,0 +1,41 @@
+{
+  "texture_infos": [
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/images/board.png",
+      "id": "board"
+    },
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/images/coin-animation.png",
+      "id": "coin-animation"
+    }
+  ],
+  "font_infos": [
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/fonts/pico8.ttf",
+      "id": "pico8-15",
+      "font_size": 15
+    },
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/fonts/pico8.ttf",
+      "id": "pico8-30",
+      "font_size": 30
+    },
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/fonts/pico8.ttf",
+      "id": "pico8-25",
+      "font_size": 25
+    }
+  ],
+  "music_infos": [
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/sounds/menu-music.mp3",
+      "id": "menu-music"
+    }
+  ],
+  "sounds_info": [
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/sounds/ready-fight.mp3",
+      "id": "ready-sound"
+    }
+  ]
+}

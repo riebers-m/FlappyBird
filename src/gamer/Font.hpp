@@ -1,29 +1,29 @@
 //
-// Created by Riebers on 30.01.2025.
+// Created by Riebers on 02.02.2025.
 //
 
 #pragma once
-#include <filesystem>
-#include <functional>
-#include <memory>
-
-typedef struct _TTF_Font TTF_Font;
+#include <optional>
+#include <SDL_ttf.h>
 
 namespace game {
     class Font {
     private:
-        using FontOwner = std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)> >;
-        std::optional<FontOwner> m_font;
+        std::optional<TTF_Font *> m_font;
 
     public:
-        Font() = default;
+        explicit Font(TTF_Font *font) {
+            if (font) {
+                m_font = font;
+            }
+        }
 
-        explicit Font(std::filesystem::path const &, size_t font_size);
+        std::optional<TTF_Font *> get() const {
+            return m_font;
+        }
 
-        [[nodiscard]] std::optional<TTF_Font *> get() const;
-
-        [[nodiscard]] bool has_font() const;
-
-        void load(std::filesystem::path const &, size_t font_size);
+        [[nodiscard]] bool has_font() const {
+            return m_font.has_value();
+        }
     };
-} // gamer
+}

@@ -19,6 +19,10 @@ namespace game {
     public:
         Sound() = default;
 
+        Sound &operator=(Sound &&) noexcept;
+
+        Sound(Sound &&) noexcept;
+
         explicit Sound(std::filesystem::path const &);
 
         void load(std::filesystem::path const &);

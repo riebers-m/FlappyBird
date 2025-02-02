@@ -37,16 +37,13 @@ set_target_properties(ecslib PROPERTIES
 )
 add_library(ecslib::ecslib ALIAS ecslib)
 
-add_executable(FlappyBird main.cpp ${IMGUI_SRC}
+add_executable(nanoengine2d main.cpp
+        ${IMGUI_SRC}
         gamer/Gamer.cpp
         gamer/Gamer.hpp
         gamer/Game.cpp
         gamer/Game.hpp
-        gamer/Configuration.hpp
         gamer/Context.hpp
-        common/Logger.hpp
-        common/SpdLog.hpp
-        common/Const.hpp
         state/BaseState.hpp
         state/States.hpp
         state/StateManager.cpp
@@ -74,33 +71,39 @@ add_executable(FlappyBird main.cpp ${IMGUI_SRC}
         gamer/Game.hpp
         gamer/Texture.cpp
         gamer/Texture.hpp
-        gamer/Font.cpp
-        gamer/Font.hpp
+        gamer/FontOwner.cpp
+        gamer/FontOwner.hpp
         gamer/Sound.cpp
         gamer/Sound.hpp
-        gamer/Music.cpp
-        gamer/Music.hpp
+        gamer/MusicOwner.cpp
+        gamer/MusicOwner.hpp
         resource/AssetStore.cpp
         resource/AssetStore.hpp
-
+        common/Logger.hpp
+        common/SpdLog.hpp
+        gamer/Configuration.hpp
+        common/Const.hpp
+        gamer/Errors.hpp
+        resource/AssetContainer.hpp
+        gamer/Font.hpp
 )
-
-target_link_libraries(FlappyBird
-        SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
+target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only
-        cpptrace::cpptrace
         JsonParser::JsonParser
         tl::expected
+        glm::glm
         ecslib::ecslib
+        SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
+        cpptrace::cpptrace
 )
 
-target_include_directories(FlappyBird PRIVATE
+target_include_directories(nanoengine2d PRIVATE
         ${CMAKE_SOURCE_DIR}/src
         $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913>
         $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913/backends>
 )
 
-set_target_properties(FlappyBird PROPERTIES
+set_target_properties(nanoengine2d PROPERTIES
         CXX_STANDARD 20
         VERSION ${FlappyBird_VERSION}
         SOVERSION ${FlappyBird_VERSION_MAJOR}
@@ -108,23 +111,23 @@ set_target_properties(FlappyBird PROPERTIES
 
 if (WIN32)
     # Copy SDL2
-    add_custom_command(TARGET FlappyBird POST_BUILD
+    add_custom_command(TARGET nanoengine2d POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${SDL2_DIR}/../lib/x64/SDL2.dll" $<TARGET_FILE_DIR:FlappyBird>)
+            "${SDL2_DIR}/../lib/x64/SDL2.dll" $<TARGET_FILE_DIR:nanoengine2d>)
     # Copy SDL2_image
-    add_custom_command(TARGET FlappyBird POST_BUILD
+    add_custom_command(TARGET nanoengine2d POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${SDL2_IMAGE_DLL_DIR}/SDL2_image.dll" $<TARGET_FILE_DIR:FlappyBird>)
+            "${SDL2_IMAGE_DLL_DIR}/SDL2_image.dll" $<TARGET_FILE_DIR:nanoengine2d>)
     # Copy SDL2_ttf
-    add_custom_command(TARGET FlappyBird POST_BUILD
+    add_custom_command(TARGET nanoengine2d POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${SDL2_TTF_DLL_DIR}/SDL2_ttf.dll" $<TARGET_FILE_DIR:FlappyBird>)
+            "${SDL2_TTF_DLL_DIR}/SDL2_ttf.dll" $<TARGET_FILE_DIR:nanoengine2d>)
     # Copy SDL2_mixer
-    add_custom_command(TARGET FlappyBird POST_BUILD
+    add_custom_command(TARGET nanoengine2d POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${SDL2_MIXER_DLL_DIR}/SDL2_mixer.dll" $<TARGET_FILE_DIR:FlappyBird>)
+            "${SDL2_MIXER_DLL_DIR}/SDL2_mixer.dll" $<TARGET_FILE_DIR:nanoengine2d>)
     # Copy Assets
-    add_custom_command(TARGET FlappyBird POST_BUILD
+    add_custom_command(TARGET nanoengine2d POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_SOURCE_DIR}/assets" $<TARGET_FILE_DIR:FlappyBird>)
+            "${CMAKE_SOURCE_DIR}/assets" $<TARGET_FILE_DIR:nanoengine2d>)
 endif ()

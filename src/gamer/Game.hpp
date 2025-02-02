@@ -4,13 +4,14 @@
 
 #pragma once
 #include "Context.hpp"
-#include "Font.hpp"
-#include "Music.hpp"
+#include "FontOwner.hpp"
+#include "MusicOwner.hpp"
 #include "Renderer.hpp"
 #include "Sound.hpp"
 #include "Texture.hpp"
 #include "Window.hpp"
 #include "common/Logger.hpp"
+#include "resource/AssetStore.hpp"
 #include "resource/AudioManager.hpp"
 #include "resource/FontManager.hpp"
 #include "resource/TextureManager.hpp"
@@ -30,9 +31,10 @@ namespace game {
         Context m_context;
         bool m_running{false};
         Texture m_texture;
-        Font m_font;
+        FontOwner m_font;
         Sound m_sound;
-        Music m_music;
+        MusicOwner m_music;
+        AssetStore m_store;
 
         void setup();
 

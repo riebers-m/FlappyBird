@@ -17,6 +17,8 @@
 #include "imgui_internal.h"
 #endif
 #include "Texture.hpp"
+#include "resource/AssetContainer.hpp"
+#include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"
 #include "state/MenuState.hpp"
 
@@ -109,8 +111,14 @@ namespace game {
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
 
-        // m_texture.load(m_renderer, BOARD_TEXTURE);
-        // Texture texture{m_renderer, BOARD_TEXTURE};
+        m_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
+                               m_context.renderer);
+
+        // auto const font = asset_store.font("pico8-15");
+        // if (font.has_font()) {
+        //     m_logger->debug(std::format("loading {} SUCCESS!", "pico8-15"));
+        // }
+
         if (!m_texture.has_texture()) {
             m_logger->warn("no texture loaded!");
         }

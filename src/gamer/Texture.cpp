@@ -3,10 +3,25 @@
 //
 
 #include "Texture.hpp"
+
+#include <regex>
+
 #include "Renderer.hpp"
 #include <SDL_image.h>
 
 namespace game {
+    Texture &Texture::operator=(Texture &&other) noexcept {
+        using std::swap;
+        swap(m_texture, other.m_texture);
+
+        return *this;
+    }
+
+    Texture::Texture(Texture &&other) noexcept {
+        using std::swap;
+        swap(m_texture, other.m_texture);
+    }
+
     Texture::Texture(Renderer &renderer, std::filesystem::path const &path) : m_texture(std::nullopt) {
         load(renderer, path);
     }

@@ -6,6 +6,17 @@
 #include <SDL_mixer.h>
 
 namespace game {
+    Sound &Sound::operator=(Sound &&other) noexcept {
+        using std::swap;
+        swap(m_sound, other.m_sound);
+        return *this;
+    }
+
+    Sound::Sound(Sound &&other) noexcept {
+        using std::swap;
+        swap(m_sound, other.m_sound);
+    }
+
     Sound::Sound(std::filesystem::path const &path) : m_sound() {
         load(path);
     }
