@@ -30,10 +30,6 @@ namespace game {
         AudioManager m_audio_manager{};
         StateManager m_state_manager{};
         entt::registry m_registry{};
-        TextureOwner m_texture;
-        FontOwner m_font;
-        SoundOwner m_sound;
-        MusicOwner m_music;
         bool m_running{false};
 
         void setup();

@@ -8,8 +8,11 @@
 #include "AssetContainer.hpp"
 #include "gamer/Font.hpp"
 #include "gamer/FontOwner.hpp"
+#include "gamer/Music.hpp"
 #include "gamer/MusicOwner.hpp"
+#include "gamer/Sound.hpp"
 #include "gamer/SoundOwner.hpp"
+#include "gamer/Texture.hpp"
 #include "gamer/TextureOwner.hpp"
 #include "json/Json.hpp"
 
@@ -32,9 +35,14 @@ namespace game {
 
         void load_from_file(std::filesystem::path const &path, Renderer &);
 
-        // Font font(std::string const &id) const {
-        //     return Font{m_fonts.at(id).get().value_or(nullptr)};
-        // }
+        Font get_font(std::string const &id);
+
+        Texture get_texture(std::string const &id) const;
+
+        Sound get_sound(std::string const &id) const;
+
+        Music get_music(std::string const &id) const;
+
 
         // template<typename T>
         // tl::expected<T &, errors> get_asset(std::string const &id);
