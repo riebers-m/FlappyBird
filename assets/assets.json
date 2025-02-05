@@ -32,7 +32,7 @@
       "id": "menu-music"
     }
   ],
-  "sounds_info": [
+  "sound_infos": [
     {
       "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/sounds/ready-fight.mp3",
       "id": "ready-sound"

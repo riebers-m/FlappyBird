@@ -1,34 +1,29 @@
 //
-// Created by Riebers on 30.01.2025.
+// Created by Riebers on 05.02.2025.
 //
 
 #pragma once
-#include <filesystem>
-#include <functional>
-#include <memory>
 #include <optional>
 #include <SDL_mixer.h>
-struct Mix_Chunk;
 
 namespace game {
     class Sound {
     private:
-        using SoundOwner = std::unique_ptr<Mix_Chunk, std::function<void(Mix_Chunk *)> >;
-        std::optional<SoundOwner> m_sound;
+        std::optional<Mix_Chunk *> m_sound;
 
     public:
-        Sound() = default;
+        explicit Sound(Mix_Chunk *chunk) : m_sound() {
+            if (chunk) {
+                m_sound = chunk;
+            }
+        }
 
-        Sound &operator=(Sound &&) noexcept;
+        [[nodiscard]] std::optional<Mix_Chunk *> get() const {
+            return m_sound;
+        }
 
-        Sound(Sound &&) noexcept;
-
-        explicit Sound(std::filesystem::path const &);
-
-        void load(std::filesystem::path const &);
-
-        [[nodiscard]] std::optional<Mix_Chunk *> get() const;
-
-        [[nodiscard]] bool has_sound() const;
+        [[nodiscard]] bool has_sound() const {
+            return m_sound.has_value();
+        }
     };
-} // game
+}

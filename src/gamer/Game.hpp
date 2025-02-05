@@ -7,7 +7,7 @@
 #include "FontOwner.hpp"
 #include "MusicOwner.hpp"
 #include "Renderer.hpp"
-#include "Sound.hpp"
+#include "SoundOwner.hpp"
 #include "Texture.hpp"
 #include "Window.hpp"
 #include "common/Logger.hpp"
@@ -30,9 +30,9 @@ namespace game {
         entt::registry m_registry{};
         Context m_context;
         bool m_running{false};
-        Texture m_texture;
+        TextureOwner m_texture;
         FontOwner m_font;
-        Sound m_sound;
+        SoundOwner m_sound;
         MusicOwner m_music;
         AssetStore m_store;
 

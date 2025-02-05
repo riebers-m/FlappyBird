@@ -69,12 +69,12 @@ add_executable(nanoengine2d main.cpp
         gamer/Context.cpp
         gamer/Game.cpp
         gamer/Game.hpp
-        gamer/Texture.cpp
-        gamer/Texture.hpp
+        gamer/TextureOwner.cpp
+        gamer/TextureOwner.hpp
         gamer/FontOwner.cpp
         gamer/FontOwner.hpp
-        gamer/Sound.cpp
-        gamer/Sound.hpp
+        gamer/SoundOwner.cpp
+        gamer/SoundOwner.hpp
         gamer/MusicOwner.cpp
         gamer/MusicOwner.hpp
         resource/AssetStore.cpp
@@ -86,6 +86,9 @@ add_executable(nanoengine2d main.cpp
         gamer/Errors.hpp
         resource/AssetContainer.hpp
         gamer/Font.hpp
+        gamer/Music.hpp
+        gamer/Texture.hpp
+        gamer/Sound.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only

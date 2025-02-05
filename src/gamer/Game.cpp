@@ -16,7 +16,7 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include "imgui_internal.h"
 #endif
-#include "Texture.hpp"
+#include "TextureOwner.hpp"
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"

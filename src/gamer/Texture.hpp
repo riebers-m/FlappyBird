@@ -1,39 +1,29 @@
 //
-// Created by Riebers on 26.01.2025.
+// Created by Riebers on 05.02.2025.
 //
 
 #pragma once
-#include <filesystem>
-#include <functional>
-#include <memory>
-
-struct SDL_Texture;
+#include <optional>
+#include <SDL_render.h>
 
 namespace game {
-    class Renderer;
-
     class Texture {
     private:
-        using TextureOwner = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> >;
-        std::optional<TextureOwner> m_texture;
+        std::optional<SDL_Texture *> m_texture;
 
     public:
-        Texture() = default;
+        explicit Texture(SDL_Texture *texture) : m_texture() {
+            if (texture) {
+                m_texture = texture;
+            }
+        }
 
-        Texture &operator=(Texture &&) noexcept;
+        [[nodiscard]] std::optional<SDL_Texture *> get() const {
+            return m_texture;
+        }
 
-        Texture(Texture &&) noexcept;
-
-        Texture &operator=(Texture const &) = delete;
-
-        Texture(Texture const &) = delete;
-
-        explicit Texture(Renderer &renderer, std::filesystem::path const &);
-
-        [[nodiscard]] std::optional<SDL_Texture *> get() const;
-
-        [[nodiscard]] bool has_texture() const;
-
-        void load(const Renderer &renderer, std::filesystem::path const &);
+        [[nodiscard]] bool has_texture() const {
+            return m_texture.has_value();
+        }
     };
-} // game
+}

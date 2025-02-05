@@ -9,23 +9,22 @@
 #include "gamer/Font.hpp"
 #include "gamer/FontOwner.hpp"
 #include "gamer/MusicOwner.hpp"
-#include "gamer/Sound.hpp"
-#include "gamer/Texture.hpp"
+#include "gamer/SoundOwner.hpp"
+#include "gamer/TextureOwner.hpp"
 #include "json/Json.hpp"
 
 namespace game {
     class AssetStore {
     private:
-        using Asset = std::variant<std::monostate, FontOwner, MusicOwner>;
+        using Asset = std::variant<std::monostate, FontOwner, MusicOwner, TextureOwner, SoundOwner>;
         std::unordered_map<std::string, Asset> m_assets;
-        // std::unordered_map<std::string, FontOwner> m_fonts;
 
-        // tl::expected<AssetContainer, std::string> load_textures(AssetContainer const &, Renderer &);
+        tl::expected<AssetContainer, std::string> load_textures(AssetContainer const &, Renderer &);
 
         tl::expected<AssetContainer, std::string> load_fonts(AssetContainer const &);
 
-        // tl::expected<AssetContainer, std::string> load_sounds(AssetContainer const &);
-        //
+        tl::expected<AssetContainer, std::string> load_sounds(AssetContainer const &);
+
         tl::expected<AssetContainer, std::string> load_musics(AssetContainer const &);
 
     public:

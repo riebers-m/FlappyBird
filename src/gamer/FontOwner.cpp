@@ -6,17 +6,6 @@
 #include <SDL_ttf.h>
 
 namespace game {
-    FontOwner &FontOwner::operator=(FontOwner &&other) noexcept {
-        using std::swap;
-        swap(m_font, other.m_font);
-        return *this;
-    }
-
-    FontOwner::FontOwner(FontOwner &&other) noexcept {
-        using std::swap;
-        swap(m_font, other.m_font);
-    }
-
     FontOwner::FontOwner(std::filesystem::path const &path, size_t font_size) : m_font() {
         load(path, font_size);
     }

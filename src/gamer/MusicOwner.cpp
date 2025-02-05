@@ -6,18 +6,6 @@
 #include <SDL_mixer.h>
 
 namespace game {
-    // MusicOwner &MusicOwner::operator=(MusicOwner &&other) noexcept {
-    //     using std::swap;
-    //     swap(m_music, other.m_music);
-    //
-    //     return *this;
-    // }
-    //
-    // MusicOwner::MusicOwner(MusicOwner &&other) noexcept {
-    //     using std::swap;
-    //     swap(m_music, other.m_music);
-    // }
-
     MusicOwner::MusicOwner(std::filesystem::path const &path) : m_music() {
         load(path);
     }

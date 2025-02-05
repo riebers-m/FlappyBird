@@ -7,7 +7,7 @@
 #include <functional>
 #include <memory>
 #include <optional>
-// #include <SDL_mixer.h>
+
 typedef struct _Mix_Music Mix_Music;
 
 namespace game {
@@ -19,18 +19,13 @@ namespace game {
     public:
         MusicOwner() = default;
 
-        // MusicOwner(MusicOwner &&other) noexcept = default;
-        //
-        // MusicOwner &operator=(MusicOwner &&other) noexcept = default;
-        //
-        // MusicOwner &operator=(MusicOwner const &other) = delete;
-        //
-        // MusicOwner(MusicOwner const &other) = delete;
+        MusicOwner(MusicOwner &&other) noexcept = default;
 
-        //
-        // MusicOwner &operator=(MusicOwner &&other) noexcept;
-        //
-        // MusicOwner(MusicOwner &&other) noexcept;
+        MusicOwner &operator=(MusicOwner &&other) noexcept = default;
+
+        MusicOwner &operator=(MusicOwner const &other) = delete;
+
+        MusicOwner(MusicOwner const &other) = delete;
 
         explicit MusicOwner(std::filesystem::path const &);
 

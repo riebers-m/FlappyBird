@@ -6,7 +6,7 @@
 #include <filesystem>
 #include <functional>
 #include <memory>
-// #include <SDL_ttf.h>
+
 typedef struct _TTF_Font TTF_Font;
 
 namespace game {
@@ -18,18 +18,13 @@ namespace game {
     public:
         FontOwner() = default;
 
-        // FontOwner(FontOwner &&other) noexcept = default;
-        //
-        // FontOwner &operator=(FontOwner &&other) noexcept = default;
-        //
-        // FontOwner(FontOwner const &) = delete;
-        //
-        // FontOwner &operator=(FontOwner const &) = delete;
+        FontOwner(FontOwner &&other) noexcept = default;
 
+        FontOwner &operator=(FontOwner &&other) noexcept = default;
 
-        FontOwner &operator=(FontOwner &&) noexcept;
+        FontOwner(FontOwner const &) = delete;
 
-        FontOwner(FontOwner &&) noexcept;
+        FontOwner &operator=(FontOwner const &) = delete;
 
         explicit FontOwner(std::filesystem::path const &, size_t font_size);
 
