@@ -41,13 +41,15 @@ namespace game {
                                                                      m_window{std::move(window)},
                                                                      m_renderer{std::move(renderer)},
                                                                      m_context{
-                                                                         m_state_manager, m_texture_manager,
+                                                                         m_state_manager, m_asset_store,
+                                                                         m_texture_manager,
                                                                          m_font_manager, m_audio_manager,
                                                                          m_registry, m_renderer, m_window, m_logger
-                                                                     }, m_running{true},
+                                                                     },
                                                                      m_texture(m_renderer, BOARD_TEXTURE),
                                                                      m_font(FONT_PICO, 30), m_sound(READY_SOUND),
-                                                                     m_music(MENU_MUSIC) {
+                                                                     m_music(MENU_MUSIC),
+                                                                     m_running{true} {
     }
 
     Game::~Game() {
@@ -111,8 +113,8 @@ namespace game {
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
 
-        m_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
-                               m_context.renderer);
+        m_asset_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
+                                     m_context.renderer);
 
         // auto const font = asset_store.font("pico8-15");
         // if (font.has_font()) {

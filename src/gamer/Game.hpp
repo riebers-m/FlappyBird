@@ -21,20 +21,20 @@ namespace game {
     class Game {
     private:
         LoggerPtr m_logger;
+        Window m_window;
+        Renderer m_renderer;
+        Context m_context;
+        AssetStore m_asset_store{};
         TextureManager m_texture_manager{};
         FontManager m_font_manager{};
         AudioManager m_audio_manager{};
-        Window m_window;
-        Renderer m_renderer;
         StateManager m_state_manager{};
         entt::registry m_registry{};
-        Context m_context;
-        bool m_running{false};
         TextureOwner m_texture;
         FontOwner m_font;
         SoundOwner m_sound;
         MusicOwner m_music;
-        AssetStore m_store;
+        bool m_running{false};
 
         void setup();
 
