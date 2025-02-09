@@ -13,7 +13,6 @@ namespace game {
     class AssetStore;
     class Window;
 
-
     struct Context {
         explicit Context(StateManager &state_manager, AssetStore &asset_store,
                          entt::registry &registry, Renderer &renderer, Window &window, LoggerPtr logger);
