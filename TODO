@@ -5,7 +5,7 @@
 [x] Load path to assets from json file
 [] Load metadata like width, height, src_rect from asset file
 [] Create class for Input Handling
-[] Print engine version
+[x] Print engine version
 * Create Spritesheet animation
 [] Create Animation class
 [] Create Spritesheet class

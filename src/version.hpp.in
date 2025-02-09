@@ -1,0 +1,24 @@
+//
+// Created by Riebers on 09.02.2025.
+//
+
+#pragma once
+
+namespace game {
+static auto constexpr PROJECT_NAME = "@PROJECT_NAME@";
+static auto constexpr PROJECT_VERSION = "@NanoEngine2D_VERSION@";
+static auto constexpr GIT_VERSION = "@GIT_VERSION@";
+static auto constexpr GIT_COMMIT = "@GIT_COMMIT@";
+static auto constexpr BUILD_TIMESTAMP = "@BUILD_TIMESTAMP@";
+
+static constexpr std::string version() {
+
+    return std::string{"=========================================\n" \
+    "  Project:      " + PROJECT_NAME \
+    "  Version:      " + PROJECT_VERSION \
+    "  Git Version:  " + GIT_VERSION \
+    "  Git Commit:   " + GIT_COMMIT \
+    "  Build Time:   " + BUILD_TIMESTAMP \
+    "====================================="};
+}
+}

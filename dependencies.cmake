@@ -1,7 +1,7 @@
 include("${PROJECT_SOURCE_DIR}/cmake/CPM.cmake")
 include("${PROJECT_SOURCE_DIR}/cmake/system_link.cmake")
 
-function(flappy_bird_setup_dependencies)
+function(nanoengine_2d_setup_dependencies)
     # Add SDL2
     find_package(SDL2 REQUIRED)
     find_package(SDL2_image REQUIRED)
@@ -63,7 +63,7 @@ function(flappy_bird_setup_dependencies)
             VERSION 3.3.0
     )
 
-    if (${flappy_bird_build_tests})
+    if (${nanoengine_2d_build_tests})
         CPMAddPackage(
                 NAME Catch2
                 GITHUB_REPOSITORY catchorg/Catch2

@@ -24,34 +24,34 @@ endmacro()
 check_sanitizer_support()
 
 if (PROJECT_IS_TOP_LEVEL)
-    option(flappy_bird_warnings_as_errors "Treat warnings as errors" ON)
-    option(flappy_bird_enable_undefined_behavior_sanitizer "Enable undefined behavior sanitizer" ${supports_ubsan})
-    option(flappy_bird_enable_address_sanitizer "Enable address sanitizer" ${supports_asan})
-    option(flappy_bird_enable_thread_sanitizer "Enable thread sanitizer" ${supports_thread_sanitizer})
-    option(flappy_bird_build_examples "Build example server and client applications" OFF)
-    option(flappy_bird_build_tests "Build tests using Catch2 Test" ON)
+    option(nanoengine_2d_warnings_as_errors "Treat warnings as errors" ON)
+    option(nanoengine_2d_enable_undefined_behavior_sanitizer "Enable undefined behavior sanitizer" ${supports_ubsan})
+    option(nanoengine_2d_enable_address_sanitizer "Enable address sanitizer" ${supports_asan})
+    option(nanoengine_2d_enable_thread_sanitizer "Enable thread sanitizer" ${supports_thread_sanitizer})
+    option(nanoengine_2d_build_examples "Build example server and client applications" OFF)
+    option(nanoengine_2d_build_tests "Build tests using Catch2 Test" ON)
 else ()
-    option(flappy_bird_warnings_as_errors "Treat warnings as errors" OFF)
-    option(flappy_bird_enable_undefined_behavior_sanitizer "Enable undefined behavior sanitizer" OFF)
-    option(flappy_bird_enable_address_sanitizer "Enable address sanitizer" OFF)
-    option(flappy_bird_enable_thread_sanitizer "Enable thread sanitizer" OFF)
-    option(flappy_bird_build_examples "Build example server and client applications" OFF)
-    option(flappy_bird_build_tests "Build tests using Catch2 Test" OFF)
+    option(nanoengine_2d_warnings_as_errors "Treat warnings as errors" OFF)
+    option(nanoengine_2d_enable_undefined_behavior_sanitizer "Enable undefined behavior sanitizer" OFF)
+    option(nanoengine_2d_enable_address_sanitizer "Enable address sanitizer" OFF)
+    option(nanoengine_2d_enable_thread_sanitizer "Enable thread sanitizer" OFF)
+    option(nanoengine_2d_build_examples "Build example server and client applications" OFF)
+    option(nanoengine_2d_build_tests "Build tests using Catch2 Test" OFF)
 endif ()
 
-add_library(flappy_bird_warnings INTERFACE)
-set_warnings(flappy_bird_warnings ${flappy_bird_warnings_as_errors})
+add_library(nanoengine_2d_warnings INTERFACE)
+set_warnings(nanoengine_2d_warnings ${nanoengine_2d_warnings_as_errors})
 
-add_library(flappy_bird_sanitizers INTERFACE)
+add_library(nanoengine_2d_sanitizers INTERFACE)
 enable_sanitizers(
-        flappy_bird_sanitizers
-        ${flappy_bird_enable_address_sanitizer}
-        ${flappy_bird_enable_undefined_behavior_sanitizer}
-        ${flappy_bird_enable_thread_sanitizer}
+        nanoengine_2d_sanitizers
+        ${nanoengine_2d_enable_address_sanitizer}
+        ${nanoengine_2d_enable_undefined_behavior_sanitizer}
+        ${nanoengine_2d_enable_thread_sanitizer}
 )
 
-add_library(flappy_bird_options INTERFACE)
-target_link_libraries(flappy_bird_options
-        INTERFACE flappy_bird_warnings
-        INTERFACE flappy_bird_sanitizers
+add_library(nanoengine_2d_options INTERFACE)
+target_link_libraries(nanoengine_2d_options
+        INTERFACE nanoengine_2d_warnings
+        INTERFACE nanoengine_2d_sanitizers
 )

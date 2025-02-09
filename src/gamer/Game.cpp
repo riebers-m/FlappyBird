@@ -6,7 +6,6 @@
 
 #include <thread>
 #include <utility>
-
 #include "Context.hpp"
 #include "common/Const.hpp"
 
@@ -20,6 +19,7 @@
 #include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"
 #include "state/MenuState.hpp"
+#include "version/version.hpp"
 
 namespace game {
     struct NanoEngineConfig {
@@ -128,6 +128,8 @@ namespace game {
         }
 
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
+
+        m_logger->info(version());
     }
 
     void Game::load_assets() {

@@ -19,7 +19,7 @@ set(IMGUI_SRC
         helpers/ImGuiRender.hpp>
 )
 
-add_library(ecslib
+add_library(ecslib STATIC
         ecs/Entity.cpp
         ecs/Entity.hpp
         ecs/components/Transform.hpp
@@ -83,6 +83,9 @@ add_executable(nanoengine2d main.cpp
         gamer/Sound.hpp
         helpers/FileReader.cpp
         helpers/FileReader.hpp
+        sprite/SpriteSheet.cpp
+        sprite/SpriteSheet.hpp
+        version.hpp.in
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only
