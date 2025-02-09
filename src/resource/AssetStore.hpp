@@ -17,6 +17,31 @@
 #include "json/Json.hpp"
 
 namespace game {
+    namespace detail {
+        template<typename TAsset>
+        struct AssetMapping;
+
+        template<>
+        struct AssetMapping<Font> {
+            using Type = FontOwner;
+        };
+
+        template<>
+        struct AssetMapping<Music> {
+            using Type = MusicOwner;
+        };
+
+        template<>
+        struct AssetMapping<Texture> {
+            using Type = TextureOwner;
+        };
+
+        template<>
+        struct AssetMapping<Sound> {
+            using Type = SoundOwner;
+        };
+    }
+
     class AssetStore {
     private:
         using Asset = std::variant<std::monostate, FontOwner, MusicOwner, TextureOwner, SoundOwner>;
@@ -35,16 +60,31 @@ namespace game {
 
         void load_from_file(std::filesystem::path const &path, Renderer &);
 
-        Font get_font(std::string const &id);
+        template<typename TAsset>
+        TAsset get_asset(std::string const &id) {
+            using Owner = typename detail::AssetMapping<TAsset>::Type;
+            if (m_assets.contains(id)) {
+                if (std::holds_alternative<Owner>(m_assets.at(id))) {
+                    return TAsset{std::get<Owner>(m_assets[id]).get().value()};
+                }
+            }
+            return TAsset{nullptr};
+        }
 
-        Texture get_texture(std::string const &id) const;
+        Font get_font(std::string const &id) {
+            return get_asset<Font>(id);
+        }
 
-        Sound get_sound(std::string const &id) const;
+        Texture get_texture(std::string const &id) {
+            return get_asset<Texture>(id);
+        }
 
-        Music get_music(std::string const &id) const;
+        Sound get_sound(std::string const &id) {
+            return get_asset<Sound>(id);
+        }
 
-
-        // template<typename T>
-        // tl::expected<T &, errors> get_asset(std::string const &id);
+        Music get_music(std::string const &id) {
+            return get_asset<Music>(id);
+        }
     };
 } // game

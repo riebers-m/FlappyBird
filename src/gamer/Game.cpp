@@ -113,20 +113,15 @@ namespace game {
         m_asset_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
                                      m_context.renderer);
 
-        // m_font_manager.load_resource(asset_id::pico8_font_10, FONT_PICO, 10);
-        // m_font_manager.load_resource(asset_id::pico8_font_30, FONT_PICO, 30);
-        // m_font_manager.load_resource(asset_id::pico8_font_50, FONT_PICO, 50);
-        //
-        // m_texture_manager.load_resource(asset_id::board_texture, m_renderer.get(), BOARD_TEXTURE);
-        // m_texture_manager.load_resource(asset_id::coin_animation, m_renderer.get(), COIN_ANIMATION);
-        //
-        // m_audio_manager.load(AudioType::music, asset_id::game_music, GAME_MUSIC);
-        // m_audio_manager.load(AudioType::music, asset_id::menu_music, MENU_MUSIC);
-        // m_audio_manager.load(AudioType::chunk, asset_id::click_sound, CLICK_SOUND);
-        // m_audio_manager.load(AudioType::chunk, asset_id::lose_sound, LOSE_SOUND);
-        // m_audio_manager.load(AudioType::chunk, asset_id::win_sound, WIN_SOUND);
-        // m_audio_manager.load(AudioType::chunk, asset_id::ready_sound, READY_SOUND);
-        // m_audio_manager.load(AudioType::chunk, asset_id::draw_sound, DRAW_SOUND);
+        auto const ready_sound = m_asset_store.get_sound("ready-sound");
+        if (ready_sound.has_sound()) {
+            Mix_PlayChannel(-1, ready_sound.get().value(), 1);
+        }
+
+        auto const background_music = m_asset_store.get_music("menu-music");
+        if (background_music.has_music()) {
+            Mix_PlayMusic(background_music.get().value(), -1);
+        }
 
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
     }
@@ -168,7 +163,13 @@ namespace game {
     void Game::render(entt::registry const &state) {
         m_renderer.set_draw_color(BACKGROUND_COLOR);
         m_renderer.clear();
-        // // SDL_RenderClear(m_renderer.get());
+
+        auto const &texture = m_asset_store.get_texture("board");
+        if (texture.has_texture()) {
+            SDL_Rect dest{200, 200, 32, 32};
+            SDL_RenderCopy(m_renderer.get(), texture.get().value(), nullptr, &dest);
+        }
+
         // if (m_texture.has_texture()) {
         //     SDL_Rect dest{200, 200, 32, 32};
         //     SDL_RenderCopy(m_renderer.get(), m_texture.get().value(), NULL, &dest);
@@ -185,7 +186,7 @@ namespace game {
                     [](SDL_Texture *tex) { SDL_DestroyTexture(tex); }
                 }; texture != nullptr) {
                     SDL_Rect dest{400, 400, surface->w, surface->h};
-                    SDL_RenderCopy(m_renderer.get(), texture.get(), NULL, &dest);
+                    SDL_RenderCopy(m_renderer.get(), texture.get(), nullptr, &dest);
                 }
             }
         }

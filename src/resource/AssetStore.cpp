@@ -68,13 +68,4 @@ namespace game {
             throw std::runtime_error{error_msg};
         });
     }
-
-    Font AssetStore::get_font(std::string const &id) {
-        if (m_assets.contains(id)) {
-            if (std::holds_alternative<FontOwner>(m_assets.at(id))) {
-                return Font{std::get<FontOwner>(m_assets[id]).get().value()};
-            }
-        }
-        return Font{nullptr};
-    }
 } // game
