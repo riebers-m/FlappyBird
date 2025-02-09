@@ -8,6 +8,8 @@
 #include <fstream>
 #include <format>
 
+#include "helpers/FileReader.hpp"
+
 namespace game {
     struct TextureInfo {
         std::filesystem::path path;
@@ -50,25 +52,16 @@ namespace game {
         std::vector<MusicInfo> music_infos;
 
         static tl::expected<AssetContainer, std::string> from_file(std::filesystem::path const &path) {
-            std::ifstream file{path};
-            if (!file.is_open()) {
-                return tl::unexpected{std::format("Could not read asset file for path: {}", path.string())};
-            }
-            std::string asset_file;
-            file.seekg(0, std::ios::end);
-            asset_file.reserve(file.tellg());
-            file.seekg(0, std::ios::beg);
-
-            // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring
-            // istreambuf_iterator is a single-pass input iterator that reads successive characters from the
-            // std::basic_streambuf object for which it was constructed.
-            asset_file.assign((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-            AssetContainer container;
-            if (auto const result = json::deserialize_type(asset_file, container); result.error != json::Error::ok) {
-                return tl::unexpected
-                        {"Could not deserialize asset file"};
-            }
-            return container;
+            return FileReader::read_file(path)
+                    .and_then([](std::string const &file) -> tl::expected<AssetContainer, std::string> {
+                        AssetContainer container;
+                        if (auto const result = json::deserialize_type(file, container);
+                            result.error != json::Error::ok) {
+                            return tl::unexpected
+                                    {"Could not deserialize asset file"};
+                        }
+                        return container;
+                    });
         }
     };
 

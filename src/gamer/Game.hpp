@@ -4,11 +4,7 @@
 
 #pragma once
 #include "Context.hpp"
-#include "FontOwner.hpp"
-#include "MusicOwner.hpp"
 #include "Renderer.hpp"
-#include "SoundOwner.hpp"
-#include "Texture.hpp"
 #include "Window.hpp"
 #include "common/Logger.hpp"
 #include "resource/AssetStore.hpp"
@@ -33,6 +29,8 @@ namespace game {
         bool m_running{false};
 
         void setup();
+
+        void load_assets();
 
         void handle_events();
 

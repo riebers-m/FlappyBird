@@ -16,13 +16,18 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include "imgui_internal.h"
 #endif
-#include "TextureOwner.hpp"
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"
 #include "state/MenuState.hpp"
 
 namespace game {
+    struct NanoEngineConfig {
+        std::filesystem::path assetDirectory;
+    };
+
+    REGISTER_MEMBER(NanoEngineConfig, assetDirectory);
+
 #ifdef _DEBUG
     static void log_framrate() {
         ImGui::SetNextWindowBgAlpha(0.7);
@@ -110,8 +115,9 @@ namespace game {
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
 
-        m_asset_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
-                                     m_context.renderer);
+        // m_asset_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
+        //                              m_context.renderer);
+        load_assets();
 
         auto const ready_sound = m_asset_store.get_sound("ready-sound");
         if (ready_sound.has_sound()) {
@@ -124,6 +130,24 @@ namespace game {
         }
 
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
+    }
+
+    void Game::load_assets() {
+        FileReader::read_file("nanoengine.config.json")
+                .and_then([](std::string const &content) -> tl::expected<NanoEngineConfig, std::string> {
+                    NanoEngineConfig config;
+                    if (auto const result = json::deserialize_type(content, config);
+                        result.error != json::Error::ok) {
+                        return tl::unexpected{"Could not deserialize nanoengine.config.json"};
+                    }
+                    return config;
+                })
+                .map([this](NanoEngineConfig const &config) {
+                    m_asset_store.load_from_file(config.assetDirectory / "assets.json", m_renderer);
+                })
+                .or_else([](std::string const &err) {
+                    throw std::runtime_error(err);
+                });
     }
 
     void Game::handle_events() {

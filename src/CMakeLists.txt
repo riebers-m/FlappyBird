@@ -89,6 +89,8 @@ add_executable(nanoengine2d main.cpp
         gamer/Music.hpp
         gamer/Texture.hpp
         gamer/Sound.hpp
+        helpers/FileReader.cpp
+        helpers/FileReader.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only
@@ -112,6 +114,11 @@ set_target_properties(nanoengine2d PROPERTIES
         SOVERSION ${FlappyBird_VERSION_MAJOR}
 )
 
+# copy nanoeengine.config.json
+add_custom_command(TARGET nanoengine2d POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        "${CMAKE_SOURCE_DIR}/nanoengine.config.json" $<TARGET_FILE_DIR:nanoengine2d>)
+
 if (WIN32)
     # Copy SDL2
     add_custom_command(TARGET nanoengine2d POST_BUILD
@@ -129,8 +136,4 @@ if (WIN32)
     add_custom_command(TARGET nanoengine2d POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SDL2_MIXER_DLL_DIR}/SDL2_mixer.dll" $<TARGET_FILE_DIR:nanoengine2d>)
-    # Copy Assets
-    add_custom_command(TARGET nanoengine2d POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${CMAKE_SOURCE_DIR}/assets" $<TARGET_FILE_DIR:nanoengine2d>)
 endif ()
