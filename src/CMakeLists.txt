@@ -86,6 +86,9 @@ add_executable(nanoengine2d main.cpp
         sprite/SpriteSheet.cpp
         sprite/SpriteSheet.hpp
         version.hpp.in
+        common/Delegate.hpp
+        common/Input.cpp
+        common/Input.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only

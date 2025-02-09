@@ -5,20 +5,20 @@
 #pragma once
 
 namespace game {
-static auto constexpr PROJECT_NAME = "@PROJECT_NAME@";
-static auto constexpr PROJECT_VERSION = "@NanoEngine2D_VERSION@";
-static auto constexpr GIT_VERSION = "@GIT_VERSION@";
-static auto constexpr GIT_COMMIT = "@GIT_COMMIT@";
-static auto constexpr BUILD_TIMESTAMP = "@BUILD_TIMESTAMP@";
+static std::string const PROJECT_NAME = "@PROJECT_NAME@";
+static std::string const PROJECT_VERSION = "@NanoEngine2D_VERSION@";
+static std::string const GIT_VERSION = "@GIT_VERSION@";
+static std::string const GIT_COMMIT = "@GIT_COMMIT@";
+static std::string const BUILD_TIMESTAMP = "@BUILD_TIMESTAMP@";
 
 static constexpr std::string version() {
 
-    return std::string{"=========================================\n" \
-    "  Project:      " + PROJECT_NAME \
-    "  Version:      " + PROJECT_VERSION \
-    "  Git Version:  " + GIT_VERSION \
-    "  Git Commit:   " + GIT_COMMIT \
-    "  Build Time:   " + BUILD_TIMESTAMP \
-    "====================================="};
+    return std::string{"=========================================" \
+    "\n  Project:      " + PROJECT_NAME + \
+    "\n  Version:      " + PROJECT_VERSION + \
+    "\n  Git Version:  " + GIT_VERSION + \
+    "\n  Git Commit:   " + GIT_COMMIT + \
+    "\n  Build Time:   " + BUILD_TIMESTAMP + \
+    "\n====================================="};
 }
 }
