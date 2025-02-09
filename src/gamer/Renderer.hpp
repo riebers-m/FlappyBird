@@ -38,6 +38,8 @@ namespace game {
 
         void render_texture(SDL_Texture *, SDL_Rect src, SDL_Rect dest) const;
 
+        void render_whole_texture(SDL_Texture *, SDL_Rect dest) const;
+
         void draw_filled_circle(int centerX,
                                 int centerY, int32_t radius, SDL_Color color = {0xFF, 0xFF, 0xFF, 0xFF}) const;
     };

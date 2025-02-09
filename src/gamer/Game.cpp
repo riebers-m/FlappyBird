@@ -47,8 +47,6 @@ namespace game {
                                                                      m_renderer{std::move(renderer)},
                                                                      m_context{
                                                                          m_state_manager, m_asset_store,
-                                                                         m_texture_manager,
-                                                                         m_font_manager, m_audio_manager,
                                                                          m_registry, m_renderer, m_window, m_logger
                                                                      },
                                                                      m_running{true} {

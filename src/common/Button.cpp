@@ -6,15 +6,10 @@
 
 #include <SDL_events.h>
 #include <format>
-#include <SDL_mixer.h>
-#include <stdexcept>
 #include <utility>
-
 #include "Const.hpp"
 #include "Text.hpp"
 #include "gamer/Renderer.hpp"
-#include "resource/AssetIDs.hpp"
-#include "resource/AudioManager.hpp"
 
 namespace game {
     Button::Button(Context context, SDL_Rect const &bbox, const std::string &text,

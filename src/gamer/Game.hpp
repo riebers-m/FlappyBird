@@ -8,9 +8,6 @@
 #include "Window.hpp"
 #include "common/Logger.hpp"
 #include "resource/AssetStore.hpp"
-#include "resource/AudioManager.hpp"
-#include "resource/FontManager.hpp"
-#include "resource/TextureManager.hpp"
 #include "state/StateManager.hpp"
 
 namespace game {
@@ -21,9 +18,6 @@ namespace game {
         Renderer m_renderer;
         Context m_context;
         AssetStore m_asset_store{};
-        TextureManager m_texture_manager{};
-        FontManager m_font_manager{};
-        AudioManager m_audio_manager{};
         StateManager m_state_manager{};
         entt::registry m_registry{};
         bool m_running{false};

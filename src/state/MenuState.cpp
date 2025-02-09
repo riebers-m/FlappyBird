@@ -3,14 +3,11 @@
 //
 
 #include "MenuState.hpp"
-
-#include <SDL_mixer.h>
 #include <utility>
 #include "common/Button.hpp"
 #include "common/Const.hpp"
 #include "gamer/Renderer.hpp"
-#include "gamer/Window.hpp"
-#include "resource/AudioManager.hpp"
+
 
 namespace game {
     MenuState::MenuState(Context context, std::function<void()> on_quit) : m_context(context),

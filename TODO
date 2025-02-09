@@ -1,6 +1,7 @@
 [x] Create Font class
 [x] Create Sound class
 [x] Create Music class
-[] Create AssetStore
-[] Load path to assets from json file
+[x] Create AssetStore
+[x] Load path to assets from json file
 [] Load metadata like width, height, src_rect from asset file
+[] Create class for Input Handling

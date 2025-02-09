@@ -50,14 +50,6 @@ add_executable(nanoengine2d main.cpp
         state/StateManager.hpp
         state/MenuState.hpp
         state/MenuState.cpp
-        resource/ResourceManager.hpp
-        resource/AssetIDs.hpp
-        resource/TextureManager.hpp
-        resource/TextureManager.cpp
-        resource/FontManager.cpp
-        resource/FontManager.hpp
-        resource/AudioManager.cpp
-        resource/AudioManager.hpp
         common/Button.cpp
         common/Button.hpp
         common/Text.cpp
