@@ -45,8 +45,7 @@ namespace game {
         SDL_RenderCopy(m_renderer.get(), texture, nullptr, &dest);
     }
 
-    void Renderer::draw_filled_circle(int centerX, int centerY, int32_t radius,
-                                      SDL_Color color) const {
+    void Renderer::draw_filled_circle(int centerX, int centerY, int32_t radius) const {
         const auto squaredRadius = radius * radius;
         const int32_t minX = -radius;
         const int32_t minY = -radius;

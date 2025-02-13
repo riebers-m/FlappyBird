@@ -28,7 +28,7 @@ private:
 
 public:
     void bind(ValidPredicate const &predicate, Callback const &callback) {
-        m_delegators.emplace_back({predicate, callback});
+        m_delegators.emplace_back(predicate, callback);
     }
 
     void broadcast(TArgs &&... args) {

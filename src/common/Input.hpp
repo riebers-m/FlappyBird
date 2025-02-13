@@ -14,6 +14,10 @@ namespace game {
 
         void bind_keydown(SDL_Scancode key, ValidPredicate const &predicate, std::function<void()> const &callback);
 
+        void bind_keypressed(SDL_Scancode key, ValidPredicate const &predicate, std::function<void()> const &callback);
+
+        void bind_keyup(SDL_Scancode key, ValidPredicate const &predicate, std::function<void()> const &callback);
+
         void update();
 
     private:

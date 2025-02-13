@@ -13,7 +13,7 @@ namespace game {
     MenuState::MenuState(Context context, std::function<void()> on_quit) : m_context(context),
                                                                            m_buttons(),
                                                                            m_text(),
-                                                                           m_on_quit(std::move(on_quit)) {
+                                                                           m_on_quit(std::move(on_quit)), m_input() {
         // auto heading = std::make_unique<Text>(m_context.renderer.get(), m_context.font_manager, "Flappy Bird",
         //                                       SDL_Rect{
         //                                           (static_cast<int>(m_context.window.size().width) / 2),
@@ -57,6 +57,29 @@ namespace game {
         // quit_button_rect.y = leaderboard_button_rect.y + quit_button_rect.h * 2;
         // quit_button->set_bbox(quit_button_rect);
         // m_buttons.push_back(std::move(quit_button));
+        m_input.bind_keydown(SDL_Scancode::SDL_SCANCODE_Q, []() { return true; }, [this] {
+            m_context.logger->debug("q key pressed");
+        });
+
+        m_input.bind_keypressed(SDL_SCANCODE_W, [this] { return true; }, [this] {
+            m_rect.y -= 5;
+        });
+        m_input.bind_keypressed(SDL_SCANCODE_S, [this] { return true; }, [this] {
+            m_rect.y += 5;
+        });
+        m_input.bind_keypressed(SDL_SCANCODE_A, [this] { return true; }, [this] {
+            m_rect.x -= 5;
+        });
+        m_input.bind_keypressed(SDL_SCANCODE_D, [this] { return true; }, [this] {
+            m_rect.x += 5;
+        });
+        m_input.bind_keyup(SDL_SCANCODE_E, [] { return true; }, [this] {
+            m_context.logger->debug("e key pressed");
+        });
+        m_rect.h = 200;
+        m_rect.w = 200;
+        m_rect.y = 300;
+        m_rect.x = 300;
     }
 
     void MenuState::enter() {
@@ -77,6 +100,7 @@ namespace game {
     }
 
     void MenuState::update(entt::registry const &, const std::chrono::milliseconds &dt) {
+        m_input.update();
         // for (auto &button: m_buttons) {
         //     if (button) {
         //         button->update();
@@ -85,6 +109,10 @@ namespace game {
     }
 
     void MenuState::render(entt::registry const &) {
+        if (auto const &texture = m_context.asset_store.get_texture("board"); texture.has_texture()) {
+            SDL_RenderCopy(m_context.renderer.get(), texture.get().value(), nullptr, &m_rect);
+        }
+
         // m_text->render();
         // for (auto &button: m_buttons) {
         //     button->render(m_context.renderer.get());

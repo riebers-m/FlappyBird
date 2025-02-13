@@ -13,7 +13,7 @@ static std::string const BUILD_TIMESTAMP = "@BUILD_TIMESTAMP@";
 
 static constexpr std::string version() {
 
-    return std::string{"=========================================" \
+    return std::string{"\n=========================================" \
     "\n  Project:      " + PROJECT_NAME + \
     "\n  Version:      " + PROJECT_VERSION + \
     "\n  Git Version:  " + GIT_VERSION + \

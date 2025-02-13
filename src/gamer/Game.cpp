@@ -216,14 +216,16 @@ namespace game {
         }
 
 
-        m_state_manager.render(state); {
+        m_state_manager.render(state);
 #ifdef _DEBUG
+        {
             ImGuiRender imgui_renderer{
                 m_renderer.get(), log_framrate,
                 [logger = m_logger] { logger->draw("Logger"); }
             };
-#endif
         }
+#endif
+
 
         SDL_RenderPresent(m_renderer.get());
     }
