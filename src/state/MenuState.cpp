@@ -76,6 +76,22 @@ namespace game {
         m_input.bind_keyup(SDL_SCANCODE_E, [] { return true; }, [this] {
             m_context.logger->debug("e key pressed");
         });
+
+        m_input.bind_mouse_down(MouseButtons::left, [] { return true; }, [this](int x, int y) {
+            m_context.logger->debug(std::format("left mouse down: {},{}", x, y));
+        });
+        m_input.bind_mouse_up(MouseButtons::middle, [] { return true; }, [this](int x, int y) {
+            m_context.logger->debug(std::format("middle mouse up: {},{}", x, y));
+        });
+        m_input.bind_mouse_pressed(MouseButtons::right, [] { return true; }, [this](int x, int y) {
+            m_context.logger->debug(std::format("right mouse pressed: {},{}", x, y));
+        });
+        m_input.bind_mouse_pressed(MouseButtons::left, [] { return true; }, [this](int x, int y) {
+            if (Input::is_key_down(SDL_SCANCODE_LCTRL)) {
+                m_context.logger->debug(std::format("left mouse + LCTRL pressed: {},{}", x, y));
+            }
+        });
+
         m_rect.h = 200;
         m_rect.w = 200;
         m_rect.y = 300;

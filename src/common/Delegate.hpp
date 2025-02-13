@@ -31,9 +31,9 @@ public:
         m_delegators.emplace_back(predicate, callback);
     }
 
-    void broadcast(TArgs &&... args) {
+    void broadcast(TArgs... args) {
         remove_invalid_delegator();
-        for (auto const delegator: m_delegators) {
+        for (auto &delegator: m_delegators) {
             delegator.callback(std::forward<TArgs>(args)...);
         }
     }
