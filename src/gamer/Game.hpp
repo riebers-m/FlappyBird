@@ -26,7 +26,6 @@ namespace game {
 
         void setup();
 
-        void load_assets();
 
         void handle_events();
 
@@ -37,18 +36,16 @@ namespace game {
 
         void render(entt::registry const &);
 
-        explicit Game(LoggerPtr, Window, Renderer);
+        explicit Game(LoggerPtr, Window, Renderer, std::filesystem::path const &asset_directory);
 
     public:
         Game() = delete;
 
         Game &operator=(Game const &) = delete;
 
-        Game &operator=(Game &&) = delete;
-
         Game(Game const &) = delete;
 
-        Game(Game &&) = delete;
+        Game &operator=(Game &&) = delete;
 
         ~Game();
 

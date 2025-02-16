@@ -6,7 +6,7 @@
 
 #include <SDL_image.h>
 #include <stdexcept>
-#include "Configuration.hpp"
+#include "EngineConfiguration.hpp"
 #include "SDL.h"
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
@@ -54,21 +54,62 @@ namespace game {
         return gamer;
     }
 
+    EngineConfiguration Gamer::load_config() {
+        EngineConfiguration config;
+        FileReader::read_file("nanoengine.config.json")
+                .map([&config](std::string const &content) -> EngineConfiguration {
+                    if (auto const result = json::deserialize_type(content, config);
+                        result.error != json::Error::ok) {
+                        throw std::runtime_error{"Could not deserialize nanoengine.config.json"};
+                    }
+                    return config;
+                }).or_else([](std::string const &err) {
+                    throw std::runtime_error(err);
+                });;
+        return config;
+    }
+
     Game Gamer::create_game(LoggerPtr logger, Gamer const &) {
-        SDL_DisplayMode display_mode;
-        if (SDL_GetCurrentDisplayMode(0, &display_mode) < 0) {
-            throw std::runtime_error(std::format(
-                "could not get display mode: {}", SDL_GetError()));
+        logger->info("reading nanoengine.config.json");
+        auto const config = Gamer::load_config();
+
+        WindowSize window_size{};
+        if (config.displayMode) {
+            logger->info(std::format("setting displayMode with aspectRatio: w:{}, h:{}", config.aspectRationWidth,
+                                     config.aspectRationHeight));
+            SDL_DisplayMode display_mode;
+            if (SDL_GetCurrentDisplayMode(0, &display_mode) < 0) {
+                throw std::runtime_error(std::format(
+                    "could not get display mode: {}", SDL_GetError()));
+            }
+            window_size.width = static_cast<std::uint32_t>(display_mode.w * config.aspectRationWidth);
+            window_size.height = static_cast<std::uint32_t>(display_mode.h * config.aspectRationHeight);
+        } else {
+            logger->info(std::format("setting width/height to: w:{}, h:{}", config.gameResolutionWidth,
+                                     config.gameResolutionHeight));
+            window_size.width = config.gameResolutionWidth;
+            window_size.height = config.gameResolutionHeight;
+        }
+
+        WindowFlags window_flags{WindowFlags::Borderless};
+        if (config.gameFullscreen) {
+            logger->info("setting Fullscreen");
+            window_flags = WindowFlags::Fullscreen;
         }
 
         auto window = Window{
-            "2d Game Engine",
-            WindowSize{static_cast<std::uint32_t>(display_mode.w * 0.8), static_cast<uint32_t>(display_mode.h * 3 / 4)},
-            WindowFlags::Borderless
+            config.title,
+            window_size,
+            window_flags
         };
         auto renderer = Renderer{window, RendererFlags::Accelerate};
         renderer.set_renderer_blend_mode();
 
-        return Game{std::move(logger), std::move(window), std::move(renderer)};
+        return Game{
+            std::move(logger),
+            std::move(window),
+            std::move(renderer),
+            config.assetDirectory / "assets.json"
+        };
     }
 } // namespace game

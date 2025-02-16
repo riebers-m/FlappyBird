@@ -58,6 +58,8 @@ namespace game {
     public:
         AssetStore() = default;
 
+        explicit AssetStore(std::filesystem::path const &path, Renderer &);
+
         void load_from_file(std::filesystem::path const &path, Renderer &);
 
         template<typename TAsset>

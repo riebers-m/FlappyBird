@@ -17,8 +17,8 @@ namespace systems {
             auto const &[sprite, transform] = view.get(entity);
             auto const texture = store.get_texture(sprite.id);
             SDL_Rect dest_rect = {
-                static_cast<int>(transform.position.x),
-                static_cast<int>(transform.position.y),
+                transform.position.x,
+                transform.position.y,
                 static_cast<int>(sprite.src_rect.w * transform.scale.x),
                 static_cast<int>(sprite.src_rect.h * transform.scale.y)
             };

@@ -73,7 +73,7 @@ add_executable(nanoengine2d main.cpp
         resource/AssetStore.hpp
         common/Logger.hpp
         common/SpdLog.hpp
-        gamer/Configuration.hpp
+        gamer/EngineConfiguration.hpp
         common/Const.hpp
         gamer/Errors.hpp
         resource/AssetContainer.hpp

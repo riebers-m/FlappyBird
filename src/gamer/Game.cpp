@@ -45,16 +45,18 @@ namespace game {
 
     static ImGuiContext *imgui_context{nullptr};
 #endif
-    Game::Game(LoggerPtr logger, Window window, Renderer renderer) : m_logger(std::move(logger)),
-                                                                     m_window{std::move(window)},
-                                                                     m_renderer{std::move(renderer)},
-                                                                     m_render_system(m_logger, m_registry),
-                                                                     m_context{
-                                                                         m_state_manager, m_asset_store,
-                                                                         m_registry, m_renderer, m_window,
-                                                                         m_render_system, m_logger
-                                                                     },
-                                                                     m_running{true} {
+    Game::Game(LoggerPtr logger, Window window, Renderer renderer,
+               std::filesystem::path const &asset_directory) : m_logger(std::move(logger)),
+                                                               m_window{std::move(window)},
+                                                               m_renderer{std::move(renderer)},
+                                                               m_asset_store{asset_directory, m_renderer},
+                                                               m_render_system(m_logger, m_registry),
+                                                               m_context{
+                                                                   m_state_manager, m_asset_store,
+                                                                   m_registry, m_renderer, m_window,
+                                                                   m_render_system, m_logger
+                                                               },
+                                                               m_running{true} {
     }
 
     Game::~Game() {
@@ -117,8 +119,7 @@ namespace game {
         ImGui_ImplSDL2_InitForSDLRenderer(m_window.get(), m_renderer.get());
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
-
-        load_assets(); {
+        {
             auto entity = ecs::Entity::create(m_registry);
             entity.add_component<component::Sprite>("pong-sheet", 50, 150, 0, 0, false);
             entity.add_component<component::Transform>(glm::vec2{200, 200});
@@ -130,24 +131,6 @@ namespace game {
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
 
         m_logger->info(version());
-    }
-
-    void Game::load_assets() {
-        FileReader::read_file("nanoengine.config.json")
-                .and_then([](std::string const &content) -> tl::expected<NanoEngineConfig, std::string> {
-                    NanoEngineConfig config;
-                    if (auto const result = json::deserialize_type(content, config);
-                        result.error != json::Error::ok) {
-                        return tl::unexpected{"Could not deserialize nanoengine.config.json"};
-                    }
-                    return config;
-                })
-                .map([this](NanoEngineConfig const &config) {
-                    m_asset_store.load_from_file(config.assetDirectory / "assets.json", m_renderer);
-                })
-                .or_else([](std::string const &err) {
-                    throw std::runtime_error(err);
-                });
     }
 
     void Game::handle_events() {

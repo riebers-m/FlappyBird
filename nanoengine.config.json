@@ -1,3 +1,7 @@
 {
-  "assetDirectory": "C:/Users/HP/CLionProjects/FlappyBird/assets"
+  "assetDirectory": "C:/Users/HP/CLionProjects/FlappyBird/assets",
+  "displayMode": true,
+  "aspectRationWidth": 0.8,
+  "aspectRationHeight": 1.0,
+  "title": "Ultimate Pong"
 }

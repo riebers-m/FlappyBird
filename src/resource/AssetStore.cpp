@@ -54,6 +54,10 @@ namespace game {
         return container;
     }
 
+    AssetStore::AssetStore(std::filesystem::path const &path, Renderer &renderer) {
+        load_from_file(path, renderer);
+    }
+
     void AssetStore::load_from_file(std::filesystem::path const &path,
                                     Renderer &renderer) {
         AssetContainer::from_file(path).and_then([this](AssetContainer const &container) {

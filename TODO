@@ -3,10 +3,11 @@
 [x] Create Music class
 [x] Create AssetStore
 [x] Load path to assets from json file
-[] Load metadata like width, height, src_rect from asset file
 [x] Create class for Input Handling
-[] Add vector of delegates to action maps
 [x] Print engine version
+[] Create EngineConfiguration and read values from .config.json
+[] Load metadata like width, height, src_rect from asset file
+[] Add vector of delegates to action maps
 
 * Create Spritesheet animation
 [] Create Animation class
