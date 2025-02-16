@@ -5,7 +5,8 @@
 [x] Load path to assets from json file
 [x] Create class for Input Handling
 [x] Print engine version
-[] Create EngineConfiguration and read values from .config.json
+[x] Create EngineConfiguration and read values from .config.json
+[x] Add Movementsystem
 [] Load metadata like width, height, src_rect from asset file
 [] Add vector of delegates to action maps
 
