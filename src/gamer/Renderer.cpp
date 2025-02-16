@@ -37,12 +37,18 @@ namespace game {
         SDL_SetRenderDrawColor(m_renderer.get(), color.r, color.g, color.b, color.a);
     }
 
-    void Renderer::render_texture(SDL_Texture *texture, SDL_Rect src, SDL_Rect dest) const {
-        SDL_RenderCopy(m_renderer.get(), texture, &src, &dest);
+    void Renderer::render_texture(Texture const &texture, SDL_Rect src, SDL_Rect dest) const {
+        if (!texture.has_texture()) {
+            throw std::runtime_error{std::format("Texture invalid")};
+        }
+        SDL_RenderCopy(m_renderer.get(), texture.get().value(), &src, &dest);
     }
 
-    void Renderer::render_whole_texture(SDL_Texture *texture, SDL_Rect dest) const {
-        SDL_RenderCopy(m_renderer.get(), texture, nullptr, &dest);
+    void Renderer::render_whole_texture(Texture const &texture, SDL_Rect dest) const {
+        if (!texture.has_texture()) {
+            throw std::runtime_error{std::format("Texture invalid")};
+        }
+        SDL_RenderCopy(m_renderer.get(), texture.get().value(), nullptr, &dest);
     }
 
     void Renderer::draw_filled_circle(int centerX, int centerY, int32_t radius) const {

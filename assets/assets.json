@@ -1,12 +1,8 @@
 {
   "texture_infos": [
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/images/board.png",
-      "id": "board"
-    },
-    {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/images/coin-animation.png",
-      "id": "coin-animation"
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/images/pong/sprites.png",
+      "id": "pong-sheet"
     }
   ],
   "font_infos": [

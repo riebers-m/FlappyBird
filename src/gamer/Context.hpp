@@ -7,6 +7,10 @@
 #include "ecs/Entity.hpp"
 #include "resource/AssetStore.hpp"
 
+namespace systems {
+    class RenderSystem;
+}
+
 namespace game {
     class Renderer;
     class StateManager;
@@ -15,13 +19,15 @@ namespace game {
 
     struct Context {
         explicit Context(StateManager &state_manager, AssetStore &asset_store,
-                         entt::registry &registry, Renderer &renderer, Window &window, LoggerPtr logger);
+                         entt::registry &registry, Renderer &renderer, Window &window,
+                         systems::RenderSystem &render_system, LoggerPtr logger);
 
         StateManager &state_manager;
         AssetStore &asset_store;
         entt::registry &registry;
         Renderer &renderer;
         Window &window;
+        systems::RenderSystem &render_system;
         LoggerPtr logger;
     };
 }

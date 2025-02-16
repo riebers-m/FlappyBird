@@ -15,6 +15,9 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include "imgui_internal.h"
 #endif
+#include "ecs/components/RigidBody.hpp"
+#include "ecs/components/Sprite.hpp"
+#include "ecs/components/Transform.hpp"
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"
@@ -45,9 +48,11 @@ namespace game {
     Game::Game(LoggerPtr logger, Window window, Renderer renderer) : m_logger(std::move(logger)),
                                                                      m_window{std::move(window)},
                                                                      m_renderer{std::move(renderer)},
+                                                                     m_render_system(m_logger, m_registry),
                                                                      m_context{
                                                                          m_state_manager, m_asset_store,
-                                                                         m_registry, m_renderer, m_window, m_logger
+                                                                         m_registry, m_renderer, m_window,
+                                                                         m_render_system, m_logger
                                                                      },
                                                                      m_running{true} {
     }
@@ -113,20 +118,15 @@ namespace game {
         ImGui_ImplSDLRenderer2_Init(m_renderer.get());
 #endif
 
-        // m_asset_store.load_from_file("C:/Users/HP/CLionProjects/FlappyBird/assets/assets.json",
-        //                              m_context.renderer);
-        load_assets();
-
-        auto const ready_sound = m_asset_store.get_sound("ready-sound");
-        if (ready_sound.has_sound()) {
-            Mix_PlayChannel(-1, ready_sound.get().value(), 1);
+        load_assets(); {
+            auto entity = ecs::Entity::create(m_registry);
+            entity.add_component<component::Sprite>("pong-sheet", 50, 150, 0, 0, false);
+            entity.add_component<component::Transform>(glm::vec2{200, 200});
+        } {
+            auto entity = ecs::Entity::create(m_registry);
+            entity.add_component<component::Sprite>("pong-sheet", 50, 150, 50, 0, false);
+            entity.add_component<component::Transform>(glm::vec2{400, 200});
         }
-
-        auto const background_music = m_asset_store.get_music("menu-music");
-        if (background_music.has_music()) {
-            Mix_PlayMusic(background_music.get().value(), -1);
-        }
-
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
 
         m_logger->info(version());

@@ -6,7 +6,7 @@
 #include <functional>
 #include <memory>
 #include <SDL_render.h>
-
+#include "gamer/Texture.hpp"
 struct SDL_Renderer;
 
 namespace game {
@@ -36,9 +36,9 @@ namespace game {
 
         void set_draw_color(SDL_Color color) const;
 
-        void render_texture(SDL_Texture *, SDL_Rect src, SDL_Rect dest) const;
+        void render_texture(Texture const &, SDL_Rect src, SDL_Rect dest) const;
 
-        void render_whole_texture(SDL_Texture *, SDL_Rect dest) const;
+        void render_whole_texture(Texture const &, SDL_Rect dest) const;
 
         void draw_filled_circle(int centerX,
                                 int centerY, int32_t radius) const;

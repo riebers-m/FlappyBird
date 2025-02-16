@@ -14,8 +14,8 @@ namespace component {
         glm::vec2 scale{};
 
         explicit Transform(glm::vec2 const &position = {}, degree rotation = {},
-                           glm::vec2 const &scale = {}) : position{position}, rotation{rotation},
-                                                          scale{scale} {
+                           glm::vec2 const &scale = {1.0, 1.0}) : position{position}, rotation{rotation},
+                                                                  scale{scale} {
         }
     };
 }

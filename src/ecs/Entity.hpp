@@ -12,13 +12,14 @@ namespace ecs {
         entt::registry &m_registry;
         entt::entity m_id;
 
-        explicit Entity(entt::entity id, entt::registry &reg);
 
         inline static std::vector<entt::entity> s_to_be_deleted_entities;
 
         static void clear_to_be_deleted_entities();
 
     public:
+        explicit Entity(entt::entity id, entt::registry &reg);
+
         static Entity create(entt::registry &registry);
 
         static void destroy_all_entities(entt::registry &registry);

@@ -7,6 +7,7 @@
 #include "Renderer.hpp"
 #include "Window.hpp"
 #include "common/Logger.hpp"
+#include "ecs/systems/RenderSystem.hpp"
 #include "resource/AssetStore.hpp"
 #include "state/StateManager.hpp"
 
@@ -16,10 +17,11 @@ namespace game {
         LoggerPtr m_logger;
         Window m_window;
         Renderer m_renderer;
-        Context m_context;
         AssetStore m_asset_store{};
         StateManager m_state_manager{};
         entt::registry m_registry{};
+        systems::RenderSystem m_render_system;
+        Context m_context;
         bool m_running{false};
 
         void setup();

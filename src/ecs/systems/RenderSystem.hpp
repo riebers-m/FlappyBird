@@ -1,0 +1,23 @@
+//
+// Created by Riebers on 14.02.2025.
+//
+
+#pragma once
+#include <entt/entity/registry.hpp>
+
+#include "common/Logger.hpp"
+#include "gamer/Renderer.hpp"
+#include "resource/AssetStore.hpp"
+
+namespace systems {
+    class RenderSystem {
+    private:
+        game::LoggerPtr m_logger;
+        entt::registry &m_registry;
+
+    public:
+        explicit RenderSystem(game::LoggerPtr logger, entt::registry &registry);
+
+        void update(const game::Renderer &renderer, game::AssetStore &store) const;
+    };
+} // systems

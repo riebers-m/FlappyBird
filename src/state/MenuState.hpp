@@ -13,15 +13,15 @@
 namespace game {
     class MenuState : public BaseState {
     private:
-        Context m_context;
+        Context &m_context;
         std::vector<std::unique_ptr<Button> > m_buttons;
         std::unique_ptr<Text> m_text;
         std::function<void()> m_on_quit;
         Input m_input;
-        SDL_Rect m_rect;
+        SDL_Rect m_rect{};
 
     public:
-        explicit MenuState(Context, std::function<void()> on_quit);
+        explicit MenuState(Context &, std::function<void()> on_quit);
 
         MenuState() = delete;
 

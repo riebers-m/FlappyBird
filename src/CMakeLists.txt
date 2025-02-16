@@ -89,6 +89,8 @@ add_executable(nanoengine2d main.cpp
         common/Delegate.hpp
         common/Input.cpp
         common/Input.hpp
+        ecs/systems/RenderSystem.cpp
+        ecs/systems/RenderSystem.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only

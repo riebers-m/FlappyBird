@@ -22,11 +22,7 @@ namespace game {
     }
 
     void Text::render() const {
-        if (m_texture) {
-            m_context.renderer.render_whole_texture(m_texture.get(), m_rect);
-            return;
-        }
-        throw std::runtime_error("Text: Invalid texture");
+        m_context.renderer.render_whole_texture(Texture{m_texture.get()}, m_rect);
     }
 
     SDL_Rect Text::get_rect() const {
