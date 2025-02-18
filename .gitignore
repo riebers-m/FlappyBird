@@ -2,3 +2,5 @@ cmake-*
 .idea
 .vscode
 *.config.json
+
+version.hpp
