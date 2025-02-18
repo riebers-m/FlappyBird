@@ -5,15 +5,15 @@
 #pragma once
 #include <entt/entity/registry.hpp>
 
+#include "BaseSystem.hpp"
 #include "common/Logger.hpp"
 #include "gamer/Renderer.hpp"
 #include "resource/AssetStore.hpp"
 
 namespace systems {
-    class RenderSystem {
+    class RenderSystem : public BaseSystem {
     private:
         game::LoggerPtr m_logger;
-        entt::registry &m_registry;
 
     public:
         explicit RenderSystem(game::LoggerPtr logger, entt::registry &registry);

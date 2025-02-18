@@ -7,8 +7,8 @@
 #include "ecs/components/Transform.hpp"
 
 namespace systems {
-    RenderSystem::RenderSystem(game::LoggerPtr logger, entt::registry &registry) : m_logger(logger),
-        m_registry(registry) {
+    RenderSystem::RenderSystem(game::LoggerPtr logger, entt::registry &registry) : BaseSystem(registry),
+        m_logger(logger) {
     }
 
     void RenderSystem::update(const game::Renderer &renderer, game::AssetStore &store) const {

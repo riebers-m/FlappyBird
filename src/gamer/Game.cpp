@@ -18,6 +18,8 @@
 #include "ecs/components/RigidBody.hpp"
 #include "ecs/components/Sprite.hpp"
 #include "ecs/components/Transform.hpp"
+#include "ecs/systems/RenderSystem.hpp"
+#include "ecs/systems/SystemsManager.hpp"
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"
@@ -50,11 +52,11 @@ namespace game {
                                                                m_window{std::move(window)},
                                                                m_renderer{std::move(renderer)},
                                                                m_asset_store{asset_directory, m_renderer},
-                                                               m_render_system(m_logger, m_registry),
+                                                               m_systems_manager(),
                                                                m_context{
                                                                    m_state_manager, m_asset_store,
                                                                    m_registry, m_renderer, m_window,
-                                                                   m_render_system, m_logger
+                                                                   m_systems_manager, m_logger
                                                                },
                                                                m_running{true} {
     }
@@ -130,7 +132,10 @@ namespace game {
         }
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
 
-        m_logger->info(version());
+        m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
+        if (!m_systems_manager.has_system<systems::RenderSystem>()) {
+            throw std::runtime_error("NO RENDERSYSTEM FOUND!");
+        }
     }
 
     void Game::handle_events() {

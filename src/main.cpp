@@ -2,6 +2,7 @@
 
 #include <memory>
 #include <cpptrace/from_current.hpp>
+#include <version/version.hpp>
 
 #include "common/ImGuiLogDebugLog.hpp"
 #include "common/Logger.hpp"
@@ -20,6 +21,7 @@ int main(int argc, char *argv[]) {
 
     CPPTRACE_TRY
         {
+            logger->info(game::version());
             auto game = game::Gamer::create_game(logger);
             game.run();
         }
