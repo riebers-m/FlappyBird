@@ -17,12 +17,12 @@ namespace systems {
             auto const &[sprite, transform] = view.get(entity);
             auto const texture = store.get_texture(sprite.id);
             SDL_Rect dest_rect = {
-                transform.position.x,
-                transform.position.y,
+                static_cast<int>(transform.position.x),
+                static_cast<int>(transform.position.y),
                 static_cast<int>(sprite.src_rect.w * transform.scale.x),
                 static_cast<int>(sprite.src_rect.h * transform.scale.y)
             };
-            if (sprite.whole_rect) {
+            if (sprite.render_setting == component::render_settings::rect_whole) {
                 renderer.render_whole_texture(texture, dest_rect);
             } else {
                 renderer.render_texture(texture, sprite.src_rect, dest_rect);

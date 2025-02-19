@@ -28,8 +28,6 @@ add_library(ecslib STATIC
         ecs/systems/ScriptHelpers.hpp
         ecs/systems/Script.cpp
         ecs/systems/Script.hpp
-        ecs/components/Sprite.hpp
-        ecs/systems/BaseSystem.hpp
 )
 target_link_libraries(ecslib PUBLIC EnTT::EnTT lua_static sol2::sol2 glm::glm)
 target_include_directories(ecslib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -93,6 +91,10 @@ add_executable(nanoengine2d main.cpp
         ecs/systems/RenderSystem.cpp
         ecs/systems/RenderSystem.hpp
         ecs/systems/SystemsManager.hpp
+        ecs/components/Sprite.hpp
+        ecs/systems/BaseSystem.hpp
+        ecs/systems/MovementSystem.cpp
+        ecs/systems/MovementSystem.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only

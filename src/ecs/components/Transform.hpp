@@ -9,11 +9,11 @@ namespace component {
     using degree = float;
 
     struct Transform {
-        glm::ivec2 position{};
+        glm::vec2 position{};
         degree rotation{};
         glm::vec2 scale{};
 
-        explicit Transform(glm::ivec2 const &position = {}, degree rotation = {},
+        explicit Transform(glm::vec2 const &position = {}, degree rotation = {},
                            glm::vec2 const &scale = {1.0, 1.0}) : position{position}, rotation{rotation},
                                                                   scale{scale} {
         }

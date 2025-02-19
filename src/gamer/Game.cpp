@@ -18,6 +18,7 @@
 #include "ecs/components/RigidBody.hpp"
 #include "ecs/components/Sprite.hpp"
 #include "ecs/components/Transform.hpp"
+#include "ecs/systems/MovementSystem.hpp"
 #include "ecs/systems/RenderSystem.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 #include "resource/AssetContainer.hpp"
@@ -123,16 +124,20 @@ namespace game {
 #endif
         {
             auto entity = ecs::Entity::create(m_registry);
-            entity.add_component<component::Sprite>("pong-sheet", 50, 150, 0, 0, false);
-            entity.add_component<component::Transform>(glm::vec2{200, 200});
+            entity.add_component<component::Sprite>("pong-sheet", 50, 110, 0, 20,
+                                                    component::render_settings::rect_section);
+            entity.add_component<component::Transform>(glm::vec2{200, 700});
+            entity.add_component<component::RigidBody>(glm::vec2{0, 50});
         } {
             auto entity = ecs::Entity::create(m_registry);
-            entity.add_component<component::Sprite>("pong-sheet", 50, 150, 50, 0, false);
+            entity.add_component<component::Sprite>("pong-sheet", 50, 150, 50, 0,
+                                                    component::render_settings::rect_section);
             entity.add_component<component::Transform>(glm::vec2{400, 200});
         }
         m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
 
         m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
+        m_systems_manager.add_system<systems::MovementSystem>(m_logger, m_registry);
         if (!m_systems_manager.has_system<systems::RenderSystem>()) {
             throw std::runtime_error("NO RENDERSYSTEM FOUND!");
         }

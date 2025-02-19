@@ -6,6 +6,7 @@
 #include <utility>
 #include "common/Button.hpp"
 #include "common/Const.hpp"
+#include "ecs/systems/MovementSystem.hpp"
 #include "ecs/systems/RenderSystem.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 #include "gamer/Renderer.hpp"
@@ -37,6 +38,7 @@ namespace game {
 
     void MenuState::update(entt::registry const &, const std::chrono::milliseconds &dt) {
         m_input.update();
+        m_context.systems_manager.get_system<systems::MovementSystem>().update(m_context.window, dt);
         // for (auto &button: m_buttons) {
         //     if (button) {
         //         button->update();
@@ -46,7 +48,7 @@ namespace game {
 
     void MenuState::render(entt::registry const &) {
         m_context.systems_manager.get_system<systems::RenderSystem>().update(m_context.renderer, m_context.asset_store);
-        // m_context.render_system.update(m_context.renderer, m_context.asset_store);
+
 
         // m_text->render();
         // for (auto &button: m_buttons) {
