@@ -5,6 +5,8 @@
 #pragma once
 #include <filesystem>
 #include <string>
+
+#include "helpers/FileReader.hpp"
 #include "json/Json.hpp"
 
 namespace game {
@@ -27,5 +29,20 @@ namespace game {
     REGISTER_MEMBER(EngineConfiguration, aspectRationHeight);
     REGISTER_MEMBER(EngineConfiguration, gameFullscreen);
     REGISTER_MEMBER(EngineConfiguration, title);
+
+    inline EngineConfiguration load_config() {
+        EngineConfiguration config;
+        FileReader::read_file("nanoengine.config.json")
+                .map([&config](std::string const &content) -> EngineConfiguration {
+                    if (auto const result = json::deserialize_type(content, config);
+                        result.error != json::Error::ok) {
+                        throw std::runtime_error{"Could not deserialize nanoengine.config.json"};
+                    }
+                    return config;
+                }).or_else([](std::string const &err) {
+                    throw std::runtime_error(err);
+                });;
+        return config;
+    }
 } // namespace game
 

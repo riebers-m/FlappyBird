@@ -9,16 +9,6 @@
 #include "gamer/Gamer.hpp"
 
 int main(int argc, char *argv[]) {
-#ifdef _DEBUG
-    auto logger = std::make_shared<game::Logger>(
-        std::make_unique<game::ImGuiLogWindow>());
-#else
-    auto logger = std::make_shared<game::Logger>(
-        std::make_unique<game::Spdlogger>(spdlog::basic_logger_mt("connect4_logger", "logs/connect4-log.txt")
-        )
-    );
-#endif
-
     CPPTRACE_TRY
         {
             logger->info(game::version());

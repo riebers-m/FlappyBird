@@ -15,6 +15,8 @@
 #include "imgui_impl_sdlrenderer2.h"
 #include "imgui_internal.h"
 #endif
+#include "Gamer.hpp"
+#include "common/ImGuiLogDebugLog.hpp"
 #include "ecs/components/RigidBody.hpp"
 #include "ecs/components/Sprite.hpp"
 #include "ecs/components/Transform.hpp"
@@ -24,7 +26,7 @@
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
 #include "state/BaseState.hpp"
-#include "state/MenuState.hpp"
+#include "state/DefaultState.hpp"
 #include "version/version.hpp"
 
 namespace game {
@@ -48,18 +50,43 @@ namespace game {
 
     static ImGuiContext *imgui_context{nullptr};
 #endif
-    Game::Game(LoggerPtr logger, Window window, Renderer renderer,
-               std::filesystem::path const &asset_directory) : m_logger(std::move(logger)),
-                                                               m_window{std::move(window)},
-                                                               m_renderer{std::move(renderer)},
-                                                               m_asset_store{asset_directory, m_renderer},
-                                                               m_systems_manager(),
-                                                               m_context{
-                                                                   m_state_manager, m_asset_store,
-                                                                   m_registry, m_renderer, m_window,
-                                                                   m_systems_manager, m_logger
-                                                               },
-                                                               m_running{true} {
+
+    Game::Game() : m_context{
+                       m_state_manager, m_asset_store,
+                       m_registry, m_renderer, m_window,
+                       m_systems_manager, m_logger, *this, m_input
+                   },
+                   m_running{true} {
+#ifdef _DEBUG
+        m_logger = std::make_shared<game::Logger>(
+            std::make_unique<game::ImGuiLogWindow>());
+#else
+        m_logger = std::make_shared<game::Logger>(
+            std::make_unique<game::Spdlogger>(spdlog::basic_logger_mt("connect4_logger", "logs/connect4-log.txt")
+            )
+        );
+#endif
+        auto [window, renderer] = Gamer::create_window_and_renderer(
+            m_logger, config_metadata::from_file);
+        m_window = std::move(window);
+        m_renderer = std::move(renderer);
+
+        m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
+        m_state_manager.add_state(StateId::menu, std::make_unique<DefaultState>(m_context));
+#ifdef _DEBUG
+        // Initialize IMGUI
+        imgui_context = ImGui::CreateContext();
+        ImGui_ImplSDL2_InitForSDLRenderer(m_window.get(), m_renderer.get());
+        ImGui_ImplSDLRenderer2_Init(m_renderer.get());
+#endif
+
+#ifdef _DEBUG
+        m_logger->info("Running Debug Build");
+#else
+        m_logger->info("Running Release Build");
+#endif
+
+        m_logger->info(version());
     }
 
     Game::~Game() {
@@ -80,7 +107,6 @@ namespace game {
         auto time_start = clock::now();
         auto last_render_time = time_start;
 
-        entt::registry previous_board{};
         while (m_running) {
             auto current_time = clock::now();
             auto frame_time = current_time - time_start;
@@ -115,33 +141,25 @@ namespace game {
         m_running = false;
     }
 
-    void Game::setup() {
-#ifdef _DEBUG
-        // Initialize IMGUI
-        imgui_context = ImGui::CreateContext();
-        ImGui_ImplSDL2_InitForSDLRenderer(m_window.get(), m_renderer.get());
-        ImGui_ImplSDLRenderer2_Init(m_renderer.get());
-#endif
-        {
-            auto entity = ecs::Entity::create(m_registry);
-            entity.add_component<component::Sprite>("pong-sheet", 50, 110, 0, 20,
-                                                    component::render_settings::rect_section);
-            entity.add_component<component::Transform>(glm::vec2{200, 700});
-            entity.add_component<component::RigidBody>(glm::vec2{0, 50});
-        } {
-            auto entity = ecs::Entity::create(m_registry);
-            entity.add_component<component::Sprite>("pong-sheet", 50, 150, 50, 0,
-                                                    component::render_settings::rect_section);
-            entity.add_component<component::Transform>(glm::vec2{400, 200});
-        }
-        m_state_manager.add_state(StateId::menu, std::make_unique<MenuState>(m_context, [&] { stop(); }));
-
-        m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
-        m_systems_manager.add_system<systems::MovementSystem>(m_logger, m_registry);
-        if (!m_systems_manager.has_system<systems::RenderSystem>()) {
-            throw std::runtime_error("NO RENDERSYSTEM FOUND!");
-        }
-    }
+    // void Game::setup() { {
+    //         auto entity = ecs::Entity::create(m_registry);
+    //         entity.add_component<component::Sprite>("pong-sheet", 50, 110, 0, 20,
+    //                                                 component::render_settings::rect_section);
+    //         entity.add_component<component::Transform>(glm::vec2{200, 700});
+    //         entity.add_component<component::RigidBody>(glm::vec2{0, 50});
+    //     } {
+    //         auto entity = ecs::Entity::create(m_registry);
+    //         entity.add_component<component::Sprite>("pong-sheet", 50, 150, 50, 0,
+    //                                                 component::render_settings::rect_section);
+    //         entity.add_component<component::Transform>(glm::vec2{400, 200});
+    //     }
+    //     m_state_manager.add_state(StateId::menu, std::make_unique<DefaultState>(m_context));
+    //
+    //     m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
+    //     if (!m_systems_manager.has_system<systems::RenderSystem>()) {
+    //         throw std::runtime_error("NO RENDERSYSTEM FOUND!");
+    //     }
+    // }
 
     void Game::handle_events() {
         SDL_Event event{};
@@ -180,34 +198,6 @@ namespace game {
     void Game::render(entt::registry const &state) {
         m_renderer.set_draw_color(BACKGROUND_COLOR);
         m_renderer.clear();
-
-        auto const &texture = m_asset_store.get_texture("board");
-        if (texture.has_texture()) {
-            SDL_Rect dest{200, 200, 32, 32};
-            SDL_RenderCopy(m_renderer.get(), texture.get().value(), nullptr, &dest);
-        }
-
-        // if (m_texture.has_texture()) {
-        //     SDL_Rect dest{200, 200, 32, 32};
-        //     SDL_RenderCopy(m_renderer.get(), m_texture.get().value(), NULL, &dest);
-        // }
-        auto const font = m_asset_store.get_font("pico8-30");
-        if (font.has_font()) {
-            if (std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *s)> > surface{
-                TTF_RenderText_Blended(font.get().value(), "Hello There",
-                                       PRIMARY_COLOR),
-                [](SDL_Surface *s) { SDL_FreeSurface(s); }
-            }; surface != nullptr) {
-                if (std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> > texture{
-                    SDL_CreateTextureFromSurface(m_renderer.get(), surface.get()),
-                    [](SDL_Texture *tex) { SDL_DestroyTexture(tex); }
-                }; texture != nullptr) {
-                    SDL_Rect dest{400, 400, surface->w, surface->h};
-                    SDL_RenderCopy(m_renderer.get(), texture.get(), nullptr, &dest);
-                }
-            }
-        }
-
 
         m_state_manager.render(state);
 #ifdef _DEBUG

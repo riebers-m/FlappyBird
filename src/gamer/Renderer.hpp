@@ -28,6 +28,8 @@ namespace game {
     public:
         explicit Renderer(Window const &, RendererFlags flags);
 
+        Renderer() = default;
+
         [[nodiscard]] SDL_Renderer *get() const;
 
         void set_renderer_blend_mode() const;

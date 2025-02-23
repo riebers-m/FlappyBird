@@ -19,24 +19,7 @@ set(IMGUI_SRC
         helpers/ImGuiRender.hpp>
 )
 
-add_library(ecslib STATIC
-        ecs/Entity.cpp
-        ecs/Entity.hpp
-        ecs/components/Transform.hpp
-        ecs/components/RigidBody.hpp
-        ecs/systems/ScriptHelpers.cpp
-        ecs/systems/ScriptHelpers.hpp
-        ecs/systems/Script.cpp
-        ecs/systems/Script.hpp
-)
-target_link_libraries(ecslib PUBLIC EnTT::EnTT lua_static sol2::sol2 glm::glm)
-target_include_directories(ecslib PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-set_target_properties(ecslib PROPERTIES
-        CXX_STANDARD 20
-)
-add_library(ecslib::ecslib ALIAS ecslib)
-
-add_executable(nanoengine2d main.cpp
+add_library(nanoengine2d STATIC
         ${IMGUI_SRC}
         gamer/Gamer.cpp
         gamer/Gamer.hpp
@@ -47,8 +30,8 @@ add_executable(nanoengine2d main.cpp
         state/States.hpp
         state/StateManager.cpp
         state/StateManager.hpp
-        state/MenuState.hpp
-        state/MenuState.cpp
+        state/DefaultState.hpp
+        state/DefaultState.cpp
         common/Button.cpp
         common/Button.hpp
         common/Text.cpp
@@ -74,7 +57,6 @@ add_executable(nanoengine2d main.cpp
         common/SpdLog.hpp
         gamer/EngineConfiguration.hpp
         common/Const.hpp
-        gamer/Errors.hpp
         resource/AssetContainer.hpp
         gamer/Font.hpp
         gamer/Music.hpp
@@ -85,9 +67,9 @@ add_executable(nanoengine2d main.cpp
         sprite/SpriteSheet.cpp
         sprite/SpriteSheet.hpp
         version.hpp.in
-        common/Delegate.hpp
-        common/Input.cpp
-        common/Input.hpp
+        gamer/Delegate.hpp
+        gamer/Input.cpp
+        gamer/Input.hpp
         ecs/systems/RenderSystem.cpp
         ecs/systems/RenderSystem.hpp
         ecs/systems/SystemsManager.hpp
@@ -95,13 +77,22 @@ add_executable(nanoengine2d main.cpp
         ecs/systems/BaseSystem.hpp
         ecs/systems/MovementSystem.cpp
         ecs/systems/MovementSystem.hpp
+        ecs/Entity.cpp
+        ecs/Entity.hpp
+        ecs/components/Transform.hpp
+        ecs/components/RigidBody.hpp
+        ecs/systems/ScriptHelpers.cpp
+        ecs/systems/ScriptHelpers.hpp
+        ecs/systems/Script.cpp
+        ecs/systems/Script.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only
         JsonParser::JsonParser
         tl::expected
         glm::glm
-        ecslib::ecslib
+        EnTT::EnTT
+        sol2::sol2 lua_static
         SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
         cpptrace::cpptrace
 )
@@ -141,3 +132,16 @@ if (WIN32)
             COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SDL2_MIXER_DLL_DIR}/SDL2_mixer.dll" $<TARGET_FILE_DIR:nanoengine2d>)
 endif ()
+
+add_executable(
+        Pong
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pong/main.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pong/Pong.hpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/Pong/Pong.cpp
+)
+
+target_include_directories(Pong PRIVATE ${CMAKE_SOURCE_DIR}/src)
+set_target_properties(Pong PROPERTIES
+        CXX_STANDARD 20
+)
+target_link_libraries(Pong PRIVATE nanoengine2d)

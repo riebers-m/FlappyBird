@@ -40,6 +40,8 @@ namespace game {
     public:
         explicit Window(std::string const &title, WindowSize const &size, WindowFlags flags);
 
+        Window() = default;
+
         [[nodiscard]] SDL_Window *get() const;
 
         [[nodiscard]] WindowSize size() const;

@@ -7,16 +7,6 @@
 #include "gamer/Renderer.hpp"
 
 namespace game {
-    // tl::expected<AssetContainer, std::string>
-    // AssetStore::load_textures(AssetContainer const &container, Renderer &renderer) {
-    //     // for (auto const &texture: container.texture_infos) {
-    //     //     if (!m_assets.try_emplace(texture.id, std::move(Texture{renderer, texture.path})).second) {
-    //     //         return tl::unexpected{std::format("ERROR: Texture with id {} already loaded.", texture.id)};
-    //     //     }
-    //     // }
-    //     return container;
-    // }
-
     tl::expected<AssetContainer, std::string> AssetStore::load_textures(AssetContainer const &container,
                                                                         Renderer &renderer) {
         for (auto const &texture: container.texture_infos) {
@@ -60,7 +50,7 @@ namespace game {
 
     void AssetStore::load_from_file(std::filesystem::path const &path,
                                     Renderer &renderer) {
-        AssetContainer::from_file(path).and_then([this](AssetContainer const &container) {
+        AssetContainer::from_file(path / "assets.json").and_then([this](AssetContainer const &container) {
             return load_fonts(container);
         }).and_then([this](AssetContainer const &container) {
             return load_musics(container);

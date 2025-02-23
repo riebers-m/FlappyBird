@@ -2,7 +2,7 @@
 // Created by Riebers on 09.02.2025.
 //
 
-#include "Input.hpp"
+#include "gamer/Input.hpp"
 
 #include <ranges>
 #include <SDL_events.h>

@@ -16,11 +16,13 @@ namespace game {
     class StateManager;
     class AssetStore;
     class Window;
+    class Game;
+    class Input;
 
     struct Context {
         explicit Context(StateManager &state_manager, AssetStore &asset_store,
                          entt::registry &registry, Renderer &renderer, Window &window,
-                         systems::SystemsManager &systems_manager, LoggerPtr logger);
+                         systems::SystemsManager &systems_manager, LoggerPtr logger, Game &game, Input &input);
 
         StateManager &state_manager;
         AssetStore &asset_store;
@@ -29,5 +31,7 @@ namespace game {
         Window &window;
         systems::SystemsManager &systems_manager;
         LoggerPtr logger;
+        Game &game;
+        Input &input;
     };
 }

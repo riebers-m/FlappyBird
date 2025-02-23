@@ -37,8 +37,8 @@ TEST_CASE("Add component") {
         REQUIRE(component.position.x == 0.0);
         REQUIRE(component.position.y == 0.0);
         REQUIRE(component.rotation == 0.0);
-        REQUIRE(component.scale.x == 0);
-        REQUIRE(component.scale.y == 0);
+        REQUIRE(component.scale.x == 1.0);
+        REQUIRE(component.scale.y == 1.0);
     }
 }
 

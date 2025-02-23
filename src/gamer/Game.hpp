@@ -6,6 +6,7 @@
 #include "Context.hpp"
 #include "Renderer.hpp"
 #include "Window.hpp"
+#include "Input.hpp"
 #include "common/Logger.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 #include "resource/AssetStore.hpp"
@@ -13,7 +14,7 @@
 
 namespace game {
     class Game {
-    private:
+    protected:
         LoggerPtr m_logger;
         Window m_window;
         Renderer m_renderer;
@@ -21,11 +22,11 @@ namespace game {
         StateManager m_state_manager{};
         entt::registry m_registry{};
         systems::SystemsManager m_systems_manager;
+        Input m_input;
         Context m_context;
         bool m_running{false};
 
-        void setup();
-
+        virtual void setup() = 0;
 
         void handle_events();
 
@@ -36,10 +37,8 @@ namespace game {
 
         void render(entt::registry const &);
 
-        explicit Game(LoggerPtr, Window, Renderer, std::filesystem::path const &asset_directory);
-
     public:
-        Game() = delete;
+        Game();
 
         Game &operator=(Game const &) = delete;
 
@@ -47,12 +46,10 @@ namespace game {
 
         Game &operator=(Game &&) = delete;
 
-        ~Game();
+        virtual ~Game();
 
         void run();
 
         void stop();
-
-        friend class Gamer;
     };
 } // namespace game

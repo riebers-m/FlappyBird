@@ -7,6 +7,8 @@
 [x] Print engine version
 [x] Create EngineConfiguration and read values from .config.json
 [x] Add Movementsystem
+[] Add Event System
+[] Add NativeScriptComponent
 [] Load metadata like width, height, src_rect from asset file
 [] Add vector of delegates to action maps
 
