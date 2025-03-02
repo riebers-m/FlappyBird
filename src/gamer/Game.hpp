@@ -7,6 +7,7 @@
 #include "Renderer.hpp"
 #include "Window.hpp"
 #include "Input.hpp"
+#include "ScriptEngine.hpp"
 #include "common/Logger.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 #include "resource/AssetStore.hpp"
@@ -25,6 +26,7 @@ namespace game {
         Input m_input;
         Context m_context;
         bool m_running{false};
+        ScriptEngine m_script_engine;
 
         virtual void setup() = 0;
 

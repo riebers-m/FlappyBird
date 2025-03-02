@@ -18,4 +18,8 @@ void pong::Pong::setup() {
         entity.add_component<component::Transform>(glm::vec2{200, 700});
         entity.add_component<component::RigidBody>(glm::vec2{0, 50});
     }
+
+    auto const scripts = m_asset_store.
+
+
 }

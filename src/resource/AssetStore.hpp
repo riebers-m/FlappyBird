@@ -46,6 +46,7 @@ namespace game {
     private:
         using Asset = std::variant<std::monostate, FontOwner, MusicOwner, TextureOwner, SoundOwner>;
         std::unordered_map<std::string, Asset> m_assets;
+        std::vector<std::filesystem::path> m_script_paths;
 
         tl::expected<AssetContainer, std::string> load_textures(AssetContainer const &, Renderer &);
 

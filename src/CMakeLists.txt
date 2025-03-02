@@ -85,6 +85,8 @@ add_library(nanoengine2d STATIC
         ecs/systems/ScriptHelpers.hpp
         ecs/systems/Script.cpp
         ecs/systems/Script.hpp
+        gamer/ScriptEngine.cpp
+        gamer/ScriptEngine.hpp
 )
 target_link_libraries(nanoengine2d
         spdlog::spdlog_header_only

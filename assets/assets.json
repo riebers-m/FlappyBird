@@ -33,5 +33,11 @@
       "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/sounds/ready-fight.mp3",
       "id": "ready-sound"
     }
+  ],
+  "script_infos": [
+    {
+      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/scripts/pong/pong.lua",
+      "id": "pong"
+    }
   ]
 }
