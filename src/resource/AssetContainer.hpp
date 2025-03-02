@@ -50,12 +50,14 @@ namespace game {
         std::string id;
     };
 
+    REGISTER_MEMBER(ScriptInfo, path);
+
     struct AssetContainer {
         std::vector<TextureInfo> texture_infos;
         std::vector<FontInfo> font_infos;
         std::vector<SoundInfo> sound_infos;
         std::vector<MusicInfo> music_infos;
-        std::vector<ScriptInfo> script_infos;
+        ScriptInfo script_info;
 
         static tl::expected<AssetContainer, std::string> from_file(std::filesystem::path const &path) {
             return FileReader::read_file(path)
@@ -75,5 +77,5 @@ namespace game {
     REGISTER_MEMBER(AssetContainer, font_infos);
     REGISTER_MEMBER(AssetContainer, sound_infos);
     REGISTER_MEMBER(AssetContainer, music_infos);
-    REGISTER_MEMBER(AssetContainer, script_infos);
+    REGISTER_MEMBER(AssetContainer, script_info);
 }

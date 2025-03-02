@@ -34,10 +34,7 @@
       "id": "ready-sound"
     }
   ],
-  "script_infos": [
-    {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/scripts/pong/pong.lua",
-      "id": "pong"
-    }
-  ]
+  "script_info": {
+    "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/scripts/pong/pong.lua"
+  }
 }

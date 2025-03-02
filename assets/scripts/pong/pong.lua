@@ -3,5 +3,6 @@ function setup()
 end
 
 function update(dt)
-    print("Update function called with dt: " .. dt)
+    local ddt = dt - 5
+    print("Update function called with ddt: " .. ddt)
 end

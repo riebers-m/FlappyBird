@@ -5,6 +5,7 @@
 #include "RenderSystem.hpp"
 #include "ecs/components/Sprite.hpp"
 #include "ecs/components/Transform.hpp"
+#include "gamer/Renderer.hpp"
 
 namespace systems {
     RenderSystem::RenderSystem(game::LoggerPtr logger, entt::registry &registry) : BaseSystem(registry),

@@ -14,7 +14,7 @@
 #include "gamer/SoundOwner.hpp"
 #include "gamer/Texture.hpp"
 #include "gamer/TextureOwner.hpp"
-#include "json/Json.hpp"
+
 
 namespace game {
     namespace detail {
@@ -44,9 +44,9 @@ namespace game {
 
     class AssetStore {
     private:
-        using Asset = std::variant<std::monostate, FontOwner, MusicOwner, TextureOwner, SoundOwner>;
+        using Asset = std::variant<std::monostate, FontOwner, MusicOwner, TextureOwner, SoundOwner,
+            std::filesystem::path>;
         std::unordered_map<std::string, Asset> m_assets;
-        std::vector<std::filesystem::path> m_script_paths;
 
         tl::expected<AssetContainer, std::string> load_textures(AssetContainer const &, Renderer &);
 
@@ -56,12 +56,7 @@ namespace game {
 
         tl::expected<AssetContainer, std::string> load_musics(AssetContainer const &);
 
-    public:
-        AssetStore() = default;
-
-        explicit AssetStore(std::filesystem::path const &path, Renderer &);
-
-        void load_from_file(std::filesystem::path const &path, Renderer &);
+        tl::expected<AssetContainer, std::string> load_scripts(AssetContainer const &);
 
         template<typename TAsset>
         TAsset get_asset(std::string const &id) {
@@ -73,6 +68,14 @@ namespace game {
             }
             return TAsset{nullptr};
         }
+
+    public:
+        AssetStore() = default;
+
+        explicit AssetStore(std::filesystem::path const &path, Renderer &);
+
+        void load_from_file(std::filesystem::path const &path, Renderer &);
+
 
         Font get_font(std::string const &id) {
             return get_asset<Font>(id);
@@ -88,6 +91,15 @@ namespace game {
 
         Music get_music(std::string const &id) {
             return get_asset<Music>(id);
+        }
+
+        std::optional<std::filesystem::path> get_script_path(std::string const &id) {
+            if (m_assets.contains(id)) {
+                if (std::holds_alternative<std::filesystem::path>(m_assets.at(id))) {
+                    return std::get<std::filesystem::path>(m_assets[id]);
+                }
+            }
+            return std::nullopt;
         }
     };
 } // game

@@ -7,7 +7,6 @@
 
 #include "BaseSystem.hpp"
 #include "common/Logger.hpp"
-#include "gamer/Renderer.hpp"
 #include "resource/AssetStore.hpp"
 
 namespace systems {

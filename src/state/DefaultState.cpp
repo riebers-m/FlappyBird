@@ -7,6 +7,7 @@
 #include "common/Const.hpp"
 #include "../gamer/Input.hpp"
 #include "ecs/systems/RenderSystem.hpp"
+#include "ecs/systems/ScriptSystem.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 
 namespace game {
@@ -24,6 +25,7 @@ namespace game {
 
     void DefaultState::update(entt::registry const &, const std::chrono::milliseconds &dt) {
         m_context.input.update();
+        m_context.systems_manager.get_system<systems::ScriptSystem>().update(dt);
     }
 
     void DefaultState::render(entt::registry const &) {

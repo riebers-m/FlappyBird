@@ -44,6 +44,17 @@ namespace game {
         return container;
     }
 
+    tl::expected<AssetContainer, std::string> AssetStore::load_scripts(AssetContainer const &container) {
+        if (!container.script_info.path.empty()) {
+            if (!m_assets.try_emplace("nano-script-engine", container.script_info.path).second) {
+                return tl::unexpected{
+                    std::format("ERROR: Script  with id {} already loaded.", container.script_info.id)
+                };
+            }
+        }
+        return container;
+    }
+
     AssetStore::AssetStore(std::filesystem::path const &path, Renderer &renderer) {
         load_from_file(path, renderer);
     }
@@ -58,6 +69,8 @@ namespace game {
             return load_sounds(container);
         }).and_then([this, &renderer](AssetContainer const &container) {
             return load_textures(container, renderer);
+        }).and_then([this](AssetContainer const &container) {
+            return load_scripts(container);
         }).or_else([](std::string const &error_msg) {
             throw std::runtime_error{error_msg};
         });

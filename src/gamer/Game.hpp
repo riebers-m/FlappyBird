@@ -30,6 +30,12 @@ namespace game {
 
         virtual void setup() = 0;
 
+        void register_systems();
+
+        void load_assets();
+
+        void load_scripts();
+
         void handle_events();
 
         void update(entt::registry const &);

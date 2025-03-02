@@ -15,5 +15,9 @@ namespace game {
         ScriptEngine();
 
         void load_from_file(std::filesystem::path const &path);
+
+        void setup() const;
+
+        void update(std::chrono::milliseconds const &dt) const;
     };
 } // game

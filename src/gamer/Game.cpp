@@ -22,6 +22,7 @@
 #include "ecs/components/Transform.hpp"
 #include "ecs/systems/MovementSystem.hpp"
 #include "ecs/systems/RenderSystem.hpp"
+#include "ecs/systems/ScriptSystem.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
@@ -71,7 +72,6 @@ namespace game {
         m_window = std::move(window);
         m_renderer = std::move(renderer);
 
-        m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
         m_state_manager.add_state(StateId::menu, std::make_unique<DefaultState>(m_context));
 #ifdef _DEBUG
         // Initialize IMGUI
@@ -100,6 +100,10 @@ namespace game {
     }
 
     void Game::run() {
+        register_systems();
+        load_assets();
+        load_scripts();
+
         setup();
 
         std::chrono::nanoseconds lag{0ns};
@@ -137,29 +141,23 @@ namespace game {
         }
     }
 
-    void Game::stop() {
-        m_running = false;
+    void Game::register_systems() {
+        m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
+        m_systems_manager.add_system<systems::ScriptSystem>(m_logger, m_registry);
     }
 
-    // void Game::setup() { {
-    //         auto entity = ecs::Entity::create(m_registry);
-    //         entity.add_component<component::Sprite>("pong-sheet", 50, 110, 0, 20,
-    //                                                 component::render_settings::rect_section);
-    //         entity.add_component<component::Transform>(glm::vec2{200, 700});
-    //         entity.add_component<component::RigidBody>(glm::vec2{0, 50});
-    //     } {
-    //         auto entity = ecs::Entity::create(m_registry);
-    //         entity.add_component<component::Sprite>("pong-sheet", 50, 150, 50, 0,
-    //                                                 component::render_settings::rect_section);
-    //         entity.add_component<component::Transform>(glm::vec2{400, 200});
-    //     }
-    //     m_state_manager.add_state(StateId::menu, std::make_unique<DefaultState>(m_context));
-    //
-    //     m_systems_manager.add_system<systems::RenderSystem>(m_logger, m_registry);
-    //     if (!m_systems_manager.has_system<systems::RenderSystem>()) {
-    //         throw std::runtime_error("NO RENDERSYSTEM FOUND!");
-    //     }
-    // }
+    void Game::load_assets() {
+        auto const config = load_config();
+        m_asset_store.load_from_file(config.assetDirectory, m_renderer);
+    }
+
+    void Game::load_scripts() {
+        if (auto const script_path = m_asset_store.get_script_path("nano-script-engine"); script_path.has_value()) {
+            auto &script_engine = m_systems_manager.get_system<systems::ScriptSystem>();
+            script_engine.load_script(script_path.value());
+            script_engine.setup();
+        }
+    }
 
     void Game::handle_events() {
         SDL_Event event{};
@@ -211,5 +209,9 @@ namespace game {
 
 
         SDL_RenderPresent(m_renderer.get());
+    }
+
+    void Game::stop() {
+        m_running = false;
     }
 } // namespace game

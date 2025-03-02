@@ -83,8 +83,8 @@ add_library(nanoengine2d STATIC
         ecs/components/RigidBody.hpp
         ecs/systems/ScriptHelpers.cpp
         ecs/systems/ScriptHelpers.hpp
-        ecs/systems/Script.cpp
-        ecs/systems/Script.hpp
+        ecs/systems/ScriptSystem.cpp
+        ecs/systems/ScriptSystem.hpp
         gamer/ScriptEngine.cpp
         gamer/ScriptEngine.hpp
 )
