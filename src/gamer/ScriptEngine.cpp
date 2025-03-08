@@ -3,7 +3,7 @@
 //
 
 #include "ScriptEngine.hpp"
-
+#include <format>
 namespace game {
     ScriptEngine::ScriptEngine() : m_lua() {
         m_lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::package);
@@ -13,7 +13,9 @@ namespace game {
         try {
             m_lua.script_file(path.string());
         } catch (sol::error const &e) {
-            throw std::runtime_error{std::format("Could not load lua script {}: {}", path.string(), e.what())};
+            throw std::runtime_error{
+                    std::format("Could not load lua script {}: {}",
+                                path.string(), e.what())};
         }
     }
 
@@ -28,4 +30,4 @@ namespace game {
             m_lua["update"](dt.count());
         }
     }
-} // game
+} // namespace game

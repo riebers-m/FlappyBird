@@ -21,28 +21,31 @@ namespace game {
         std::string title{"NanoEngine"};
     };
 
-    REGISTER_MEMBER(EngineConfiguration, assetDirectory);
-    REGISTER_MEMBER(EngineConfiguration, gameResolutionWidth);
-    REGISTER_MEMBER(EngineConfiguration, gameResolutionHeight);
-    REGISTER_MEMBER(EngineConfiguration, displayMode);
-    REGISTER_MEMBER(EngineConfiguration, aspectRationWidth);
-    REGISTER_MEMBER(EngineConfiguration, aspectRationHeight);
-    REGISTER_MEMBER(EngineConfiguration, gameFullscreen);
-    REGISTER_MEMBER(EngineConfiguration, title);
+    REGISTER_MEMBER(EngineConfiguration, assetDirectory)
+    REGISTER_MEMBER(EngineConfiguration, gameResolutionWidth)
+    REGISTER_MEMBER(EngineConfiguration, gameResolutionHeight)
+    REGISTER_MEMBER(EngineConfiguration, displayMode)
+    REGISTER_MEMBER(EngineConfiguration, aspectRationWidth)
+    REGISTER_MEMBER(EngineConfiguration, aspectRationHeight)
+    REGISTER_MEMBER(EngineConfiguration, gameFullscreen)
+    REGISTER_MEMBER(EngineConfiguration, title)
 
     inline EngineConfiguration load_config() {
         EngineConfiguration config;
         FileReader::read_file("nanoengine.config.json")
-                .map([&config](std::string const &content) -> EngineConfiguration {
-                    if (auto const result = json::deserialize_type(content, config);
+                .map([&config](std::string const &content)
+                             -> EngineConfiguration {
+                    if (auto const result =
+                                json::deserialize_type(content, config);
                         result.error != json::Error::ok) {
-                        throw std::runtime_error{"Could not deserialize nanoengine.config.json"};
+                        throw std::runtime_error{
+                                "Could not deserialize nanoengine.config.json"};
                     }
                     return config;
-                }).or_else([](std::string const &err) {
+                })
+                .or_else([](std::string const &err) {
                     throw std::runtime_error(err);
-                });;
+                });
         return config;
     }
 } // namespace game
-

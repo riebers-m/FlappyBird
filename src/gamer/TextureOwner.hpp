@@ -6,6 +6,7 @@
 #include <filesystem>
 #include <functional>
 #include <memory>
+#include <optional>
 
 struct SDL_Texture;
 
@@ -14,7 +15,8 @@ namespace game {
 
     class TextureOwner {
     private:
-        using Owner = std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> >;
+        using Owner = std::unique_ptr<SDL_Texture,
+                                      std::function<void(SDL_Texture *)>>;
         std::optional<Owner> m_texture;
 
     public:
@@ -28,7 +30,8 @@ namespace game {
 
         TextureOwner(TextureOwner const &) = delete;
 
-        explicit TextureOwner(Renderer &renderer, std::filesystem::path const &);
+        explicit TextureOwner(Renderer &renderer,
+                              std::filesystem::path const &);
 
         [[nodiscard]] std::optional<SDL_Texture *> get() const;
 
@@ -36,4 +39,4 @@ namespace game {
 
         void load(const Renderer &renderer, std::filesystem::path const &);
     };
-} // game
+} // namespace game

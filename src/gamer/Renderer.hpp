@@ -3,9 +3,10 @@
 //
 
 #pragma once
+#include <SDL_render.h>
+#include <cstdint>
 #include <functional>
 #include <memory>
-#include <SDL_render.h>
 #include "gamer/Texture.hpp"
 struct SDL_Renderer;
 
@@ -42,7 +43,6 @@ namespace game {
 
         void render_whole_texture(Texture const &, SDL_Rect dest) const;
 
-        void draw_filled_circle(int centerX,
-                                int centerY, int32_t radius) const;
+        void draw_filled_circle(int centerX, int centerY, int32_t radius) const;
     };
-} // game
+} // namespace game

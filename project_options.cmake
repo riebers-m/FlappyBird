@@ -55,3 +55,5 @@ target_link_libraries(nanoengine_2d_options
         INTERFACE nanoengine_2d_warnings
         INTERFACE nanoengine_2d_sanitizers
 )
+
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

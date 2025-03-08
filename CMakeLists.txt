@@ -11,8 +11,9 @@ include(${PROJECT_SOURCE_DIR}/project_options.cmake)
 include(${PROJECT_SOURCE_DIR}/dependencies.cmake)
 include(${PROJECT_SOURCE_DIR}/cmake/version.cmake)
 
-
 nanoengine_2d_setup_dependencies()
+
+add_compile_definitions("$<$<CONFIG:DEBUG>:DEBUG>")
 
 add_subdirectory(src)
 

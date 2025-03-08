@@ -1,40 +1,40 @@
 {
   "texture_infos": [
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/images/pong/sprites.png",
+      "path": "/home/max/dev/FlappyBird/assets/images/pong/sprites.png",
       "id": "pong-sheet"
     }
   ],
   "font_infos": [
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/fonts/pico8.ttf",
+      "path": "/home/max/dev/FlappyBird/assets/fonts/pico8.ttf",
       "id": "pico8-15",
       "font_size": 15
     },
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/fonts/pico8.ttf",
+      "path": "/home/max/dev/FlappyBird/assets/fonts/pico8.ttf",
       "id": "pico8-30",
       "font_size": 30
     },
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/fonts/pico8.ttf",
+      "path": "/home/max/dev/FlappyBird/assets/fonts/pico8.ttf",
       "id": "pico8-25",
       "font_size": 25
     }
   ],
   "music_infos": [
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/sounds/menu-music.mp3",
+      "path": "/home/max/dev/FlappyBird/assets/sounds/menu-music.mp3",
       "id": "menu-music"
     }
   ],
   "sound_infos": [
     {
-      "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/sounds/ready-fight.mp3",
+      "path": "/home/max/dev/FlappyBird/assets/sounds/ready-fight.mp3",
       "id": "ready-sound"
     }
   ],
   "script_info": {
-    "path": "C:/Users/HP/CLionProjects/FlappyBird/assets/scripts/pong/pong.lua"
+    "path": "/home/max/dev/FlappyBird/assets/scripts/pong/pong.lua"
   }
 }

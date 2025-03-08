@@ -6,13 +6,15 @@
 #include <filesystem>
 #include <functional>
 #include <memory>
+#include <optional>
 
 typedef struct _TTF_Font TTF_Font;
 
 namespace game {
     class FontOwner {
     private:
-        using Owner = std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)> >;
+        using Owner =
+                std::unique_ptr<TTF_Font, std::function<void(TTF_Font *)>>;
         std::optional<Owner> m_font;
 
     public:
@@ -34,4 +36,4 @@ namespace game {
 
         void load(std::filesystem::path const &, size_t font_size);
     };
-} // gamer
+} // namespace game

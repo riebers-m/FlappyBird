@@ -3,10 +3,10 @@
 //
 
 #pragma once
-#include "json/Json.hpp"
 #include <filesystem>
-#include <fstream>
 #include <format>
+#include <fstream>
+#include "json/Json.hpp"
 
 #include "helpers/FileReader.hpp"
 
@@ -59,16 +59,23 @@ namespace game {
         std::vector<MusicInfo> music_infos;
         ScriptInfo script_info;
 
-        static tl::expected<AssetContainer, std::string> from_file(std::filesystem::path const &path) {
+        static tl::expected<AssetContainer, std::string>
+        from_file(std::filesystem::path const &path) {
             return FileReader::read_file(path)
-                    .and_then([](std::string const &file) -> tl::expected<AssetContainer, std::string> {
+                    .and_then([](std::string const &file)
+                                      -> tl::expected<AssetContainer,
+                                                      std::string> {
                         AssetContainer container;
-                        if (auto const result = json::deserialize_type(file, container);
+                        if (auto const result =
+                                    json::deserialize_type(file, container);
                             result.error != json::Error::ok) {
-                            return tl::unexpected
-                                    {"Could not deserialize asset file"};
+                            return tl::unexpected{
+                                    "Could not deserialize asset file"};
                         }
                         return container;
+                    })
+                    .or_else([&path](std::string const &msg) {
+                        throw std::runtime_error{std::format("{}", msg)};
                     });
         }
     };
@@ -78,4 +85,4 @@ namespace game {
     REGISTER_MEMBER(AssetContainer, sound_infos);
     REGISTER_MEMBER(AssetContainer, music_infos);
     REGISTER_MEMBER(AssetContainer, script_info);
-}
+} // namespace game

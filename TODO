@@ -8,9 +8,14 @@
 [x] Create EngineConfiguration and read values from .config.json
 [x] Add Movementsystem
 [] Add Event System
-[] Add ScriptEngine
+[x] Add ScriptEngine
 [] Load metadata like width, height, src_rect from asset file
 [] Add vector of delegates to action maps
+
+* Json lib does not work under linux
+[x] format includes missing
+[x] RegisterType does not add type to types map
+[] Update RegisterType in Json lib
 
 * Create Spritesheet animation
 [] Create Animation class

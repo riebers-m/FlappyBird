@@ -3,11 +3,14 @@
 //
 
 #include "gamer/TextureOwner.hpp"
-#include "Renderer.hpp"
 #include <SDL_image.h>
+#include <format>
+#include "Renderer.hpp"
 
 namespace game {
-    TextureOwner::TextureOwner(Renderer &renderer, std::filesystem::path const &path) : m_texture(std::nullopt) {
+    TextureOwner::TextureOwner(Renderer &renderer,
+                               std::filesystem::path const &path) :
+        m_texture(std::nullopt) {
         load(renderer, path);
     }
 
@@ -18,17 +21,18 @@ namespace game {
         return std::nullopt;
     }
 
-    bool TextureOwner::has_texture() const {
-        return m_texture.has_value();
-    }
+    bool TextureOwner::has_texture() const { return m_texture.has_value(); }
 
-    void TextureOwner::load(const Renderer &renderer, std::filesystem::path const &path) {
-        if (SDL_Texture *texture = IMG_LoadTexture(renderer.get(), path.string().c_str()); texture) {
+    void TextureOwner::load(const Renderer &renderer,
+                            std::filesystem::path const &path) {
+        if (SDL_Texture *texture =
+                    IMG_LoadTexture(renderer.get(), path.string().c_str());
+            texture) {
             m_texture = {texture, SDL_DestroyTexture};
         } else {
-            throw std::runtime_error(
-                std::format("Could not load texture from path: {} ERROR: {}",
-                            path.string(), SDL_GetError()));
+            throw std::runtime_error(std::format(
+                    "Could not load texture from path: {} ERROR: {}",
+                    path.string(), SDL_GetError()));
         }
     }
-} // game
+} // namespace game

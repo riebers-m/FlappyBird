@@ -95,7 +95,7 @@ target_link_libraries(nanoengine2d
         glm::glm
         EnTT::EnTT
         sol2::sol2 lua_static
-        SDL2::SDL2 SDL2::SDL2main SDL2_image::SDL2_image SDL2_ttf::SDL2_ttf SDL2_mixer::SDL2_mixer
+        SDL2::SDL2 SDL2::SDL2main SDL2_image SDL2_ttf SDL2_mixer
         cpptrace::cpptrace
 )
 

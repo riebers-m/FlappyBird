@@ -19,6 +19,6 @@ static constexpr std::string version() {
     "\n  Git Version:  " + GIT_VERSION + \
     "\n  Git Commit:   " + GIT_COMMIT + \
     "\n  Build Time:   " + BUILD_TIMESTAMP + \
-    "\n====================================="};
+    "\n========================================="};
 }
 }

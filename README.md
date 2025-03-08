@@ -36,12 +36,11 @@ Ensure you have the following installed on your system:
 - **CMake** (3.10 or newer)
 - **SDL2** development libraries
 - **SDL2_image** (for loading textures)
+- **SDL2_ttf** (for loading ttf)
+- **SDL2_mixer** (for loading audio)
 
-On Ubuntu/Debian-based systems, you can install the dependencies with:
-
-```bash
-sudo apt-get install libsdl2-dev libsdl2-image-dev cmake g++
-```
+On Ubuntu/Debian-based systems, you can install the dependencies:
+https://gist.github.com/aaangeletakis/3187339a99f7786c25075d4d9c80fad5
 
 ## Building the Project
 

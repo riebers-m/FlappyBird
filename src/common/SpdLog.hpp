@@ -5,19 +5,28 @@
 #pragma once
 #include "Logger.hpp"
 #include "spdlog/logger.h"
-
+#include "spdlog/sinks/basic_file_sink.h"
 namespace game {
     class Spdlogger : public ILogger {
     private:
         std::shared_ptr<spdlog::logger> m_logger;
 
     public:
-        explicit Spdlogger(std::shared_ptr<spdlog::logger> logger) : m_logger(std::move(logger)) {}
+        explicit Spdlogger(std::shared_ptr<spdlog::logger> logger) :
+            m_logger(std::move(logger)) {}
 
-        void debug(std::string const &message) override { m_logger->debug(message); }
-        void info(std::string const &message) override { m_logger->info(message); }
-        void warn(std::string const &message) override { m_logger->warn(message); }
-        void error(std::string const &message) override { m_logger->error(message); }
+        void debug(std::string const &message) override {
+            m_logger->debug(message);
+        }
+        void info(std::string const &message) override {
+            m_logger->info(message);
+        }
+        void warn(std::string const &message) override {
+            m_logger->warn(message);
+        }
+        void error(std::string const &message) override {
+            m_logger->error(message);
+        }
         void draw(std::string const &title) override{};
     };
-}
+} // namespace game

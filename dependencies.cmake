@@ -47,7 +47,7 @@ function(nanoengine_2d_setup_dependencies)
     CPMAddPackage(
             NAME Json
             GITHUB_REPOSITORY riebers-m/Json
-            VERSION 0.5.0
+            VERSION 0.8.0
     )
 
     CPMAddPackage(
