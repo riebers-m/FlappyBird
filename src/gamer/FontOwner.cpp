@@ -13,7 +13,8 @@ namespace game {
     }
 
     void FontOwner::load(std::filesystem::path const &path, size_t font_size) {
-        if (TTF_Font *font = TTF_OpenFont(path.string().c_str(), font_size);
+        if (TTF_Font *font = TTF_OpenFont(path.string().c_str(),
+                                          static_cast<int>(font_size));
             font) {
             m_font = {font, TTF_CloseFont};
         } else {

@@ -8,38 +8,38 @@
 #include <stdexcept>
 #include "EngineConfiguration.hpp"
 #include "SDL.h"
-#include "SDL_ttf.h"
 #include "SDL_mixer.h"
+#include "SDL_ttf.h"
 #include "helpers/FileReader.hpp"
 
 namespace game {
     Gamer::Gamer() {
         if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
             throw std::runtime_error{
-                std::format("Init SDL failed: {}", SDL_GetError())
-            };
+                    std::format("Init SDL failed: {}", SDL_GetError())};
         }
         if (TTF_Init() != 0) {
             throw std::runtime_error{
-                std::format("Init TTF failed: {}", TTF_GetError())
-            };
+                    std::format("Init TTF failed: {}", TTF_GetError())};
         }
         // Initialize PNG loading
         if (!(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
-            throw std::runtime_error{
-                std::format("SDL_image could not initialize! SDL_image Error: {}", IMG_GetError())
-            };
+            throw std::runtime_error{std::format(
+                    "SDL_image could not initialize! SDL_image Error: {}",
+                    IMG_GetError())};
         }
         int const flags = MIX_INIT_MP3;
         if (auto result = Mix_Init(flags); result != flags) {
-            throw std::runtime_error(std::format("SDL_mixer could not initialize! SDL_mixer Error: {}",
-                                                 Mix_GetError()));
+            throw std::runtime_error(std::format(
+                    "SDL_mixer could not initialize! SDL_mixer Error: {}",
+                    Mix_GetError()));
         }
-        //Initialize SDL_mixer
-        // To load mp3: https://gist.github.com/cdave1/10563386
+        // Initialize SDL_mixer
+        //  To load mp3: https://gist.github.com/cdave1/10563386
         if (Mix_OpenAudio(22050, AUDIO_S16SYS, 2, 640) != 0) {
-            throw std::runtime_error(std::format("SDL_mixer could not initialize! SDL_mixer Error: {}",
-                                                 Mix_GetError()));
+            throw std::runtime_error(std::format(
+                    "SDL_mixer could not initialize! SDL_mixer Error: {}",
+                    Mix_GetError()));
         }
     }
 
@@ -58,10 +58,13 @@ namespace game {
     // EngineConfiguration Gamer::load_config() {
     //     EngineConfiguration config;
     //     FileReader::read_file("nanoengine.config.json")
-    //             .map([&config](std::string const &content) -> EngineConfiguration {
-    //                 if (auto const result = json::deserialize_type(content, config);
+    //             .map([&config](std::string const &content) ->
+    //             EngineConfiguration {
+    //                 if (auto const result = json::deserialize_type(content,
+    //                 config);
     //                     result.error != json::Error::ok) {
-    //                     throw std::runtime_error{"Could not deserialize nanoengine.config.json"};
+    //                     throw std::runtime_error{"Could not deserialize
+    //                     nanoengine.config.json"};
     //                 }
     //                 return config;
     //             }).or_else([](std::string const &err) {
@@ -76,17 +79,21 @@ namespace game {
     //
     //     WindowSize window_size{};
     //     if (config.displayMode) {
-    //         logger->info(std::format("setting displayMode with aspectRatio: w:{}, h:{}", config.aspectRationWidth,
+    //         logger->info(std::format("setting displayMode with aspectRatio:
+    //         w:{}, h:{}", config.aspectRationWidth,
     //                                  config.aspectRationHeight));
     //         SDL_DisplayMode display_mode;
     //         if (SDL_GetCurrentDisplayMode(0, &display_mode) < 0) {
     //             throw std::runtime_error(std::format(
     //                 "could not get display mode: {}", SDL_GetError()));
     //         }
-    //         window_size.width = static_cast<std::uint32_t>(display_mode.w * config.aspectRationWidth);
-    //         window_size.height = static_cast<std::uint32_t>(display_mode.h * config.aspectRationHeight);
+    //         window_size.width = static_cast<std::uint32_t>(display_mode.w *
+    //         config.aspectRationWidth); window_size.height =
+    //         static_cast<std::uint32_t>(display_mode.h *
+    //         config.aspectRationHeight);
     //     } else {
-    //         logger->info(std::format("setting width/height to: w:{}, h:{}", config.gameResolutionWidth,
+    //         logger->info(std::format("setting width/height to: w:{}, h:{}",
+    //         config.gameResolutionWidth,
     //                                  config.gameResolutionHeight));
     //         window_size.width = config.gameResolutionWidth;
     //         window_size.height = config.gameResolutionHeight;
@@ -120,17 +127,23 @@ namespace game {
 
         WindowSize window_size{};
         if (config.displayMode) {
-            logger->info(std::format("setting displayMode with aspectRatio: w:{}, h:{}", config.aspectRationWidth,
-                                     config.aspectRationHeight));
+            logger->info(std::format(
+                    "setting displayMode with aspectRatio: w:{}, h:{}",
+                    config.aspectRationWidth, config.aspectRationHeight));
             SDL_DisplayMode display_mode;
             if (SDL_GetCurrentDisplayMode(0, &display_mode) < 0) {
                 throw std::runtime_error(std::format(
-                    "could not get display mode: {}", SDL_GetError()));
+                        "could not get display mode: {}", SDL_GetError()));
             }
-            window_size.width = static_cast<std::uint32_t>(display_mode.w * config.aspectRationWidth);
-            window_size.height = static_cast<std::uint32_t>(display_mode.h * config.aspectRationHeight);
+            window_size.width = static_cast<std::uint32_t>(
+                    static_cast<float>(display_mode.w) *
+                    config.aspectRationWidth);
+            window_size.height = static_cast<std::uint32_t>(
+                    static_cast<float>(display_mode.h) *
+                    config.aspectRationHeight);
         } else {
-            logger->info(std::format("setting width/height to w:{}, h:{}", config.gameResolutionWidth,
+            logger->info(std::format("setting width/height to w:{}, h:{}",
+                                     config.gameResolutionWidth,
                                      config.gameResolutionHeight));
             window_size.width = config.gameResolutionWidth;
             window_size.height = config.gameResolutionHeight;
@@ -142,33 +155,29 @@ namespace game {
             window_flags = WindowFlags::Fullscreen;
         }
 
-        auto window = Window{
-            config.title,
-            window_size,
-            window_flags
-        };
+        auto window = Window{config.title, window_size, window_flags};
         auto renderer = Renderer{window, RendererFlags::Accelerate};
         renderer.set_renderer_blend_mode();
         return std::make_pair(std::move(window), std::move(renderer));
     }
 
-    std::pair<Window, Renderer> Gamer::create_window_renderer_from_args(LoggerPtr logger, Args const &args) {
+    std::pair<Window, Renderer>
+    Gamer::create_window_renderer_from_args(LoggerPtr logger,
+                                            Args const &args) {
         logger->info("creating window and renderer from args");
-        logger->info(std::format("setting width/height to w:{}, h:{}", args.window_size.width,
+        logger->info(std::format("setting width/height to w:{}, h:{}",
+                                 args.window_size.width,
                                  args.window_size.height));
-        auto window = Window{
-            args.title,
-            args.window_size,
-            args.window_flags
-        };
+        auto window = Window{args.title, args.window_size, args.window_flags};
         auto renderer = Renderer{window, args.renderer_flags};
         renderer.set_renderer_blend_mode();
         return std::make_pair(std::move(window), std::move(renderer));
     }
 
-    std::pair<Window, Renderer> Gamer::create_window_and_renderer(LoggerPtr logger, config_metadata config_metadata,
-                                                                  Args const &args,
-                                                                  Gamer const &) {
+    std::pair<Window, Renderer>
+    Gamer::create_window_and_renderer(LoggerPtr logger,
+                                      config_metadata config_metadata,
+                                      Args const &args, Gamer const &) {
         if (config_metadata == config_metadata::from_file) {
             return load_config_from_file(logger);
         }

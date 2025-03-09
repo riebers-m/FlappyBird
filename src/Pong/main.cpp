@@ -4,7 +4,7 @@
 
 #include "Pong.hpp"
 
-int main(int argc, char *argv[]) {
+int main([[maybe_unused]] int argc, [[maybe_unused]] char *argv[]) {
     pong::Pong pong;
 
     pong.run();

@@ -9,7 +9,7 @@ namespace component {
     struct RigidBody {
         glm::vec2 velocity{};
 
-        explicit RigidBody(glm::vec2 const &velocity = {}) : velocity{velocity} {
-        }
+        explicit RigidBody(glm::vec2 const &velocity = {}) :
+            velocity{velocity} {}
     };
-}
+} // namespace component

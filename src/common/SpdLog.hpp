@@ -27,6 +27,6 @@ namespace game {
         void error(std::string const &message) override {
             m_logger->error(message);
         }
-        void draw(std::string const &title) override{};
+        void draw([[maybe_unused]] std::string const &title) override{};
     };
 } // namespace game

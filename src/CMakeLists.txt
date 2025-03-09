@@ -1,7 +1,7 @@
-
-set(IMGUI_SRC
+add_library(IMGUI_SRC STATIC
         $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913/imconfig.h;
         ${CMAKE_SOURCE_DIR}/libs/imgui-1913/imgui.cpp;
+        ${CMAKE_SOURCE_DIR}/libs/imgui-1913/imgui.h;
         ${CMAKE_SOURCE_DIR}/libs/imgui-1913/imgui_demo.cpp;
         ${CMAKE_SOURCE_DIR}/libs/imgui-1913/imgui_draw.cpp;
         ${CMAKE_SOURCE_DIR}/libs/imgui-1913/imgui_internal.h;
@@ -18,9 +18,18 @@ set(IMGUI_SRC
         common/ImGuiLogDebugLog.hpp;
         helpers/ImGuiRender.hpp>
 )
+target_include_directories(IMGUI_SRC PUBLIC
+        ${CMAKE_SOURCE_DIR}/libs/imgui-1913
+        ${CMAKE_SOURCE_DIR}/libs/imgui-1913/backends
+)
+target_link_libraries(IMGUI_SRC PRIVATE
+        SDL2::SDL2
+)
+set_target_properties(IMGUI_SRC PROPERTIES
+        CXX_STANDARD 20
+)
 
 add_library(nanoengine2d STATIC
-        ${IMGUI_SRC}
         gamer/Gamer.cpp
         gamer/Gamer.hpp
         gamer/Game.cpp
@@ -66,7 +75,7 @@ add_library(nanoengine2d STATIC
         helpers/FileReader.hpp
         sprite/SpriteSheet.cpp
         sprite/SpriteSheet.hpp
-        version.hpp.in
+        version/version.hpp
         gamer/Delegate.hpp
         gamer/Input.cpp
         gamer/Input.hpp
@@ -88,21 +97,27 @@ add_library(nanoengine2d STATIC
         gamer/ScriptEngine.cpp
         gamer/ScriptEngine.hpp
 )
-target_link_libraries(nanoengine2d
-        spdlog::spdlog_header_only
-        JsonParser::JsonParser
-        tl::expected
-        glm::glm
+
+target_link_system_libraries(nanoengine2d PUBLIC
+        IMGUI_SRC
         EnTT::EnTT
+        JsonParser::JsonParser
+        glm::glm
+        spdlog::spdlog_header_only
+        tl::expected
         sol2::sol2 lua_static
-        SDL2::SDL2 SDL2::SDL2main SDL2_image SDL2_ttf SDL2_mixer
         cpptrace::cpptrace
+)
+
+target_link_libraries(nanoengine2d PUBLIC
+        SDL2::SDL2 SDL2::SDL2main SDL2_image SDL2_ttf SDL2_mixer
+        nanoengine_2d_options
 )
 
 target_include_directories(nanoengine2d PRIVATE
         ${CMAKE_SOURCE_DIR}/src
-        $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913>
-        $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913/backends>
+        #        $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913>
+        #        $<$<CONFIG:Debug>:${CMAKE_SOURCE_DIR}/libs/imgui-1913/backends>
 )
 
 set_target_properties(nanoengine2d PROPERTIES

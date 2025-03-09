@@ -3,14 +3,14 @@
 //
 
 #pragma once
-#include <optional>
 #include <entt/entt.hpp>
+#include <optional>
 
 namespace ecs {
     class Entity {
     private:
-        entt::registry &m_registry;
         entt::entity m_id;
+        entt::registry &m_registry;
 
 
         inline static std::vector<entt::entity> s_to_be_deleted_entities;
@@ -34,8 +34,9 @@ namespace ecs {
         }
 
         template<typename Component, typename... TArgs>
-        Component &add_component(TArgs &&... args) {
-            return m_registry.emplace<Component>(m_id, std::forward<TArgs>(args)...);
+        Component &add_component(TArgs &&...args) {
+            return m_registry.emplace<Component>(m_id,
+                                                 std::forward<TArgs>(args)...);
         }
 
         template<typename... Components>
@@ -44,8 +45,9 @@ namespace ecs {
         }
 
         template<typename Component, typename... TArgs>
-        Component &replace(TArgs &&... args) {
-            return m_registry.replace<Component>(m_id, std::forward<TArgs>(args)...);
+        Component &replace(TArgs &&...args) {
+            return m_registry.replace<Component>(m_id,
+                                                 std::forward<TArgs>(args)...);
         }
 
         template<typename Component>
@@ -61,4 +63,4 @@ namespace ecs {
             return m_registry.get<Component>(m_id);
         }
     };
-} // entity
+} // namespace ecs

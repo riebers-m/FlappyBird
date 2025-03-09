@@ -6,7 +6,6 @@
 #include <functional>
 #include <memory>
 #include <string>
-
 #include "SDL_video.h"
 #include "glm/vec2.hpp"
 
@@ -38,7 +37,8 @@ namespace game {
         WindowPosition m_position{};
 
     public:
-        explicit Window(std::string const &title, WindowSize const &size, WindowFlags flags);
+        explicit Window(std::string const &title, WindowSize const &size,
+                        WindowFlags flags);
 
         Window() = default;
 
@@ -62,4 +62,4 @@ namespace game {
 
         void set_pos(WindowPosition const &pos);
     };
-} // Window
+} // namespace game

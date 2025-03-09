@@ -18,7 +18,7 @@ namespace game {
         }
         std::string content;
         file.seekg(0, std::ios::end);
-        content.reserve(file.tellg());
+        content.reserve(static_cast<unsigned long>(file.tellg()));
         file.seekg(0, std::ios::beg);
 
         // https://stackoverflow.com/questions/2602013/read-whole-ascii-file-into-c-stdstring

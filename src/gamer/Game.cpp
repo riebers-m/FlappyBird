@@ -18,17 +18,17 @@
 #endif
 
 #include "Gamer.hpp"
-#include "common/SpdLog.hpp"
-#include "ecs/components/RigidBody.hpp"
-#include "ecs/components/Sprite.hpp"
-#include "ecs/components/Transform.hpp"
+// #include "common/SpdLog.hpp"
+// #include "ecs/components/RigidBody.hpp"
+// #include "ecs/components/Sprite.hpp"
+// #include "ecs/components/Transform.hpp"
+// #include "state/BaseState.hpp"
 #include "ecs/systems/MovementSystem.hpp"
 #include "ecs/systems/RenderSystem.hpp"
 #include "ecs/systems/ScriptSystem.hpp"
 #include "ecs/systems/SystemsManager.hpp"
 #include "resource/AssetContainer.hpp"
 #include "resource/AssetStore.hpp"
-#include "state/BaseState.hpp"
 #include "state/DefaultState.hpp"
 #include "version/version.hpp"
 
@@ -41,12 +41,12 @@ namespace game {
 
 #ifdef DEBUG
     static void log_framrate() {
-        ImGui::SetNextWindowBgAlpha(0.7);
+        ImGui::SetNextWindowBgAlpha(0.7f);
         if (ImGui::Begin("Frames per second", nullptr,
                          ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)",
-                        1000.0f / ImGui::GetIO().Framerate,
-                        ImGui::GetIO().Framerate);
+                        static_cast<double>(1000.0f / ImGui::GetIO().Framerate),
+                        static_cast<double>(ImGui::GetIO().Framerate));
         }
         ImGui::End();
     }
@@ -130,8 +130,9 @@ namespace game {
 
             if (current_time - last_render_time >= render_time) {
                 // value between 0..1
-                auto const alpha =
-                        static_cast<float>(lag.count()) / timestep.count();
+                //                auto const alpha =
+                //                        static_cast<float>(lag.count()) /
+                //                        timestep.count();
                 // auto const current_state =
                 //         interpolate(m_board, previous_board, alpha);
                 render(m_registry);

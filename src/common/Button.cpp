@@ -12,9 +12,10 @@
 #include "gamer/Renderer.hpp"
 
 namespace game {
-    Button::Button(Context context, SDL_Rect const &bbox, const std::string &text,
-                   std::function<void()> callback) : m_context(std::move(context)), m_bbox(bbox), m_text(text),
-                                                     m_callback(std::move(callback)) {
+    Button::Button(Context context, SDL_Rect const &bbox,
+                   const std::string &text, std::function<void()> callback) :
+        m_context(std::move(context)), m_bbox(bbox), m_text(text),
+        m_callback(std::move(callback)) {
         set_text(m_text, m_context.renderer.get(), {});
     }
 
@@ -53,7 +54,8 @@ namespace game {
 
     void Button::update() {
         if (m_clicked) {
-            // auto const sound = m_context.audio_manager.get_chunk(asset_id::click_sound);
+            // auto const sound =
+            // m_context.audio_manager.get_chunk(asset_id::click_sound);
             // Mix_PlayChannel(-1, sound.get(), 0);
             m_clicked = false;
             if (m_callback) {
@@ -78,19 +80,27 @@ namespace game {
         m_callback = std::move(callback);
     }
 
-    void Button::set_text(const std::string &text, SDL_Renderer *renderer, SDL_Color color) {
-        // if (std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *s)> > surface{
-        //     TTF_RenderText_Blended(m_context.font_manager.get_resource(asset_id::pico8_font_50).get(), m_text.c_str(),
+    void Button::set_text([[maybe_unused]] const std::string &text,
+                          [[maybe_unused]] SDL_Renderer *renderer,
+                          [[maybe_unused]] SDL_Color color) {
+        // if (std::unique_ptr<SDL_Surface, std::function<void(SDL_Surface *s)>
+        // > surface{
+        //     TTF_RenderText_Blended(m_context.font_manager.get_resource(asset_id::pico8_font_50).get(),
+        //     m_text.c_str(),
         //                            color),
         //     [](SDL_Surface *s) { SDL_FreeSurface(s); }
         // }; surface != nullptr) {
-        //     if (std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture *)> > texture{
-        //         SDL_CreateTextureFromSurface(renderer, surface.get()), [](SDL_Texture *tex) { SDL_DestroyTexture(tex); }
+        //     if (std::unique_ptr<SDL_Texture, std::function<void(SDL_Texture
+        //     *)> > texture{
+        //         SDL_CreateTextureFromSurface(renderer, surface.get()),
+        //         [](SDL_Texture *tex) { SDL_DestroyTexture(tex); }
         //     }; texture != nullptr) {
         //         m_texture = std::move(texture);
         //         int label_width, label_height;
-        //         if (SDL_QueryTexture(m_texture.get(), nullptr, nullptr, &label_width, &label_height) != 0) {
-        //             throw std::runtime_error(std::format("Could not query texture: {}", SDL_GetError()));
+        //         if (SDL_QueryTexture(m_texture.get(), nullptr, nullptr,
+        //         &label_width, &label_height) != 0) {
+        //             throw std::runtime_error(std::format("Could not query
+        //             texture: {}", SDL_GetError()));
         //         }
         //         m_bbox.w = label_width;
         //         m_bbox.h = label_height;
@@ -98,7 +108,5 @@ namespace game {
         // }
     }
 
-    SDL_Rect Button::size() const {
-        return m_bbox;
-    }
+    SDL_Rect Button::size() const { return m_bbox; }
 } // namespace game
