@@ -7,26 +7,24 @@
 #include <format>
 #include <stdexcept>
 
-#include "Game.hpp"
-
 namespace game {
-    Window::Window(std::string const &title, WindowSize const &size, WindowFlags flags) : m_window(
-            std::unique_ptr<SDL_Window, WindowDeleter>(
-                SDL_CreateWindow(
-                    title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, static_cast<int>(size.width),
-                    static_cast<int>(size.height),
-                    flags), [](SDL_Window *window) {
-                    SDL_DestroyWindow(window);
-                })), m_size(size) {
+    Window::Window(std::string const &title, WindowSize const &size,
+                   WindowFlags flags) :
+        m_window(std::unique_ptr<SDL_Window, WindowDeleter>(
+                SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED,
+                                 SDL_WINDOWPOS_CENTERED,
+                                 static_cast<int>(size.width),
+                                 static_cast<int>(size.height), flags),
+                [](SDL_Window *window) { SDL_DestroyWindow(window); })),
+        m_size(size) {
         if (m_window == nullptr) {
-            throw std::runtime_error(std::format("Failed to initialize window: {}", SDL_GetError()));
+            throw std::runtime_error(std::format(
+                    "Failed to initialize window: {}", SDL_GetError()));
         }
         pos();
     }
 
-    SDL_Window *Window::get() const {
-        return m_window.get();
-    }
+    SDL_Window *Window::get() const { return m_window.get(); }
 
     bool Window::is_fullscreen() const {
         return SDL_GetWindowFlags(m_window.get()) == SDL_WINDOW_FULLSCREEN;
@@ -64,7 +62,5 @@ namespace game {
         m_position = pos;
     }
 
-    WindowSize Window::size() const {
-        return m_size;
-    }
-} // Window
+    WindowSize Window::size() const { return m_size; }
+} // namespace game

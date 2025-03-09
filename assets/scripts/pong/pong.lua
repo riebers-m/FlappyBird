@@ -1,8 +1,8 @@
-function setup()
+function Setup()
     print("Setup function called")
+    ballPosition = Vec2.new(100, 200)
 end
 
-function update(dt)
-    local ddt = dt - 5
-    print("Update function called with ddt: " .. ddt)
+function Update(dt)
+    print("ball pos: ", ballPosition.x, ";", ballPosition.y)
 end

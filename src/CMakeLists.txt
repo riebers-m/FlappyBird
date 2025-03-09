@@ -96,6 +96,8 @@ add_library(nanoengine2d STATIC
         ecs/systems/ScriptSystem.hpp
         gamer/ScriptEngine.cpp
         gamer/ScriptEngine.hpp
+        helpers/LuaApi.cpp
+        helpers/LuaApi.hpp
 )
 
 target_link_system_libraries(nanoengine2d PUBLIC

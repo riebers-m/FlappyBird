@@ -19,9 +19,9 @@ namespace systems {
         explicit ScriptSystem(game::LoggerPtr logger, entt::registry &registry);
 
         void load_script(std::filesystem::path const &script_file);
-
+        void publish_api();
         void setup() const;
 
         void update(std::chrono::milliseconds const &dt) const;
     };
-} // system
+} // namespace systems

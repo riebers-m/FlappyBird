@@ -1,4 +1,4 @@
-[] Compile engine with all warnings on or maybe try
+[x] Compile engine with all warnings on or maybe try
 [] Create entities from lua script
 [] Add Event System
 [] Load metadata like width, height, src_rect from asset file

@@ -11,13 +11,16 @@ namespace game {
     private:
         sol::state m_lua;
 
+
     public:
         ScriptEngine();
 
         void load_from_file(std::filesystem::path const &path);
 
+        void publish_vec2_api();
+
         void setup() const;
 
         void update(std::chrono::milliseconds const &dt) const;
     };
-} // game
+} // namespace game

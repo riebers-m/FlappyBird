@@ -161,6 +161,7 @@ namespace game {
             script_path.has_value()) {
             auto &script_engine =
                     m_systems_manager.get_system<systems::ScriptSystem>();
+            script_engine.publish_api();
             script_engine.load_script(script_path.value());
             script_engine.setup();
         }
